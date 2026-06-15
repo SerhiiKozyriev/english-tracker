@@ -1,0 +1,79 @@
+<app-modal [title]="'New session'">
+  <ng-container modal-body>
+    <div class="modal-row">
+      <div class="input-group input-group--fluid">
+        <label class="input-label">Date</label>
+        <input type="date" class="input" [formField]="createSessionForm.date" />
+        @if (createSessionForm.date().invalid() && createSessionForm.date().touched()) {
+          <div class="error">Date is required</div>
+        }
+      </div>
+      <div class="input-group">
+        <label class="input-label">Duration (min)</label>
+        <input
+          type="number"
+          class="input input-duration"
+          placeholder="45"
+          [formField]="createSessionForm.duration"
+        />
+        @if (createSessionForm.duration().invalid() && createSessionForm.duration().touched()) {
+          <div class="error">Date is required</div>
+        }
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-label">Topics — press Enter to add</label>
+      @for (topic of createSessionModel().topics; track $index) {
+        <div class="input-box">
+          <app-category-tag [category]="topic.category"></app-category-tag>
+          <input type="text" class="input" [formField]="createSessionForm.topics[$index].desc" />
+        </div>
+        @if (
+          createSessionForm.topics[$index].desc().invalid() &&
+          createSessionForm.topics[$index].desc().touched()
+        ) {
+          <div class="error">Description is required</div>
+        }
+      }
+      <div class="category-select">
+        <button type="button" class="category-select__trigger" popovertarget="category-menu">
+          <span class="category-select__trigger-icon category-select__trigger-icon--plus">+</span>
+          <span class="category-select__trigger-text">Add category</span>
+        </button>
+
+        <div class="category-select__dropdown" popover id="category-menu">
+          <ul class="category-select__list">
+            @for (category of categoriesList; track category.key) {
+              <li class="category-select__item" (click)="selectCategory(category.key)">
+                <span class="category-select__dot" [attr.data-variant]="category.variant"> </span>
+
+                <span class="category-select__item-text">
+                  {{ category.label }}
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="input-group">
+      <label class="input-label">Notes (optional)</label>
+      <textarea
+        class="input input-notes"
+        placeholder="What clicked today? What was hard?"
+        [formField]="createSessionForm.notes"
+        rows="3"
+      ></textarea>
+    </div>
+  </ng-container>
+  <ng-container modal-footer>
+    <button class="btn btn--secondary" (click)="close()">Cancel</button>
+    <button
+      class="btn btn--primary"
+      (click)="createSession()"
+      [disabled]="createSessionForm().invalid()"
+    >
+      Save
+    </button>
+  </ng-container>
+</app-modal>

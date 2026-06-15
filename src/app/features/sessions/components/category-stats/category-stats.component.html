@@ -1,0 +1,12 @@
+<div class="category-stats">
+  <p class="category-stats__title">By category</p>
+
+  <div class="category-stats__list">
+    @for (cat of categoriesData(); track cat.category) {
+      <div class="category-stats__item">
+        <app-category-tag [category]="cat.category"></app-category-tag>
+        <span class="category-stats__count">{{ cat.count }}</span>
+      </div>
+    }
+  </div>
+</div>

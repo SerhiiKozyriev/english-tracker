@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.category-stats {
+  background-color: var(--surface-primary);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+}
+
+.category-stats__title {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-label);
+  margin: 0 0 var(--space-xl) 0;
+}
+
+.category-stats__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.category-stats__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-stats__tag {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.category-stats__count {
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+}

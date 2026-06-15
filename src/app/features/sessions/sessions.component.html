@@ -1,0 +1,30 @@
+<div class="sessions-page">
+  <main class="sessions-page__main">
+    <app-session-search [(value)]="searchQuery"/>
+
+    <div class="sessions-page__list">
+      @for (session of sessionsResource.value(); track session._id) {
+        <app-session-card [session]="session" (sessionDelete)="deleteSession($event)"/>
+      }
+    </div>
+  </main>
+
+  <aside class="sessions-page__sidebar">
+    <button
+      type="button"
+      class="btn"
+      (click)="openCreateSessionModal()"
+    >
+      <svg class="btn__icon"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+
+      Add session
+    </button>
+    <app-create-session-modal (sessionCreated)="onSessionCreated()"></app-create-session-modal>
+    <app-streak-card [streak]="streak()" />
+
+    <app-stats-card [sessions]="sessionsResource.value()"></app-stats-card>
+    <app-category-stats [sessions]="sessionsResource.value()"></app-category-stats>
+  </aside>
+</div>

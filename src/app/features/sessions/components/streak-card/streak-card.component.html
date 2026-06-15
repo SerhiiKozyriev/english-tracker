@@ -1,0 +1,18 @@
+<div class="streak-card">
+  <p class="streak-card__title">Current streak</p>
+
+  <div class="streak-card__content">
+    <span class="streak-card__emoji">🔥</span>
+
+    <div class="streak-card__info">
+      <p class="streak-card__count">{{ streak() }}</p>
+      <p class="streak-card__sub">
+        @if (streak() === 1) {
+          day in a row
+        } @else {
+          days in a row
+        }
+      </p>
+    </div>
+  </div>
+</div>
