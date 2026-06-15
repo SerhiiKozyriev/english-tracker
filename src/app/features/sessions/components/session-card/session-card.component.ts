@@ -13,7 +13,7 @@ export class SessionCardComponent {
   session = input.required<Session>();
 
   totalItems = computed(() => {
-    return this.session().topics.reduce((acc, t) => acc + t.desc.length, 0);
+    return this.session().topics.reduce((acc, topic) => acc + 1, 0);
   });
 
   onDelete(id: string) {

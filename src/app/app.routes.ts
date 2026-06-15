@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { sessionsRoutes } from '@app/features';
+import { sessionsRoutes } from '@feature/sessions';
 
 export const routes: Routes = [
   ...sessionsRoutes,

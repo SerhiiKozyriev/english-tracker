@@ -15,8 +15,8 @@
     "paths": {
       "@app/*": ["./src/app/*"],
       "@core/*": ["./src/app/core/*"],
-      "@features/*": ["./src/app/features/*"],
-      "@shared/*": ["./src/app/shared/*"],
+      "@feature/sessions": ["./src/app/features/sessions/index.ts"],
+      "@shared/components/*": ["./src/app/shared/components/*"]
     },
     "target": "ES2022",
     "module": "preserve"

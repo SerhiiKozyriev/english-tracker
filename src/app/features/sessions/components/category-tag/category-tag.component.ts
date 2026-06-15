@@ -1,6 +1,6 @@
 import { Component, input, computed } from '@angular/core';
-import { TagComponent } from '@shared/index';
 import { categoryToTagMap, TopicCategory } from '../../models/category';
+import { TagComponent } from '@shared/components/tag/tag.component';
 
 @Component({
   selector: 'app-category-tag',

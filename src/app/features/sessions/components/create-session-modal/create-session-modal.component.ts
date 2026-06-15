@@ -5,12 +5,12 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ModalComponent } from '@shared/index';
 import { SessionTopic } from '../../models/sessions';
 import { applyEach, form, FormField, min, required } from '@angular/forms/signals';
 import { CategoryTagComponent } from '../category-tag/category-tag.component';
 import { categoryToTagMap, TopicCategory } from '../../models/category';
 import { SessionsService } from '../../services/sessions.service';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 
 interface CreateSessionDate {
   date: string;
