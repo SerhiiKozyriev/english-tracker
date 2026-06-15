@@ -1,0 +1,27 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background-color: var(--variant-bg);
+  color: var(--variant-text);
+}
+
+.badge__dot {
+  display: inline-block;
+  width: var(--size-marker);
+  height: var(--size-marker);
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: var(--variant-graphic);
+}
+
+.badge__check {
+  display: inline-block;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  flex-shrink: 0;
+}
