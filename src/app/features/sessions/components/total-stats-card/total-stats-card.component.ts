@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Session } from '../../models/sessions';
 
 @Component({
@@ -22,7 +22,7 @@ export class TotalStatsCardComponent {
       totalMinutes += session.duration || 0;
 
       if (session.topics) {
-        for (const topic of session.topics) {
+        for (let i = 0; i <= session.topics.length; i++) {
           totalTopics += 1;
         }
       }

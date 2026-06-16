@@ -81,7 +81,7 @@ export class CreateSessionModalComponent {
   }
 
   protected createSession(): void {
-    this.sessionsService.createSession(this.createSessionModel()).subscribe((newSession) => {
+    this.sessionsService.createSession(this.createSessionModel()).subscribe(() => {
       this.sessionCreated.emit();
       this.resetForm();
       this.close();
