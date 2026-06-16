@@ -1,0 +1,13 @@
+.vocabulary-page__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+}
+
+.vocabulary-page__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  align-items: stretch;
+}
+

@@ -1,0 +1,18 @@
+.word-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xl);
+}
+
+.word-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.word-card__word {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+}

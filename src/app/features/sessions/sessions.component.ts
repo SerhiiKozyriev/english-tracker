@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { SessionsService } from './services/sessions.service';
-import { SessionsSearch } from './components/sessions-search/sessions-search';
+import { SearchComponent } from '@shared/components';
 import { rxResource } from '@angular/core/rxjs-interop';
+
 import { SessionCardComponent } from './components/session-card/session-card.component';
 import { StreakCardComponent } from './components/streak-card/streak-card.component';
 import { CategoryStatsComponent } from './components/category-stats/category-stats.component';
@@ -11,7 +12,7 @@ import { CreateSessionModalComponent } from './components/create-session-modal/c
 @Component({
   selector: 'app-sessions',
   imports: [
-    SessionsSearch,
+    SearchComponent,
     SessionCardComponent,
     StreakCardComponent,
     TotalStatsCardComponent,

@@ -1,6 +1,7 @@
-<div class="sessions-page">
+<div class="page sessions-page">
+
   <main class="sessions-page__main">
-    <app-session-search [(value)]="searchQuery"/>
+    <app-search [(value)]="searchQuery" placeholder="Search topics, notes, dates…"/>
 
     <div class="sessions-page__list">
       @for (session of sessionsResource.value(); track session._id) {

@@ -1,0 +1,12 @@
+<div class="page vocabulary-page">
+  <main class="vocabulary-page__main">
+    <app-search [(value)]="searchQuery" placeholder="Search words or translations…" />
+
+    <div class="vocabulary-page__list">
+      @for (word of wordsResource.value(); track word._id) {
+        <app-word-card [word]="word" (wordDelete)="deleteWord($event)" />
+      }
+    </div>
+  </main>
+</div>
+

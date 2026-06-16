@@ -1,7 +1,4 @@
 .sessions-page {
-  max-width: var(--page-max-width);
-  margin: 0 auto;
-  padding: var(--space-5xl) var(--space-3xl);
   display: grid;
   grid-template-columns: 1fr var(--size-sidebar-width);
   gap: var(--space-4xl);

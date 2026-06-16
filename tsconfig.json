@@ -16,7 +16,10 @@
       "@app/*": ["./src/app/*"],
       "@core/*": ["./src/app/core/*"],
       "@feature/sessions": ["./src/app/features/sessions/index.ts"],
+      "@feature/vocabulary": ["./src/app/features/vocabulary/index.ts"],
+      "@shared/components": ["./src/app/shared/components/index.ts"],
       "@shared/components/*": ["./src/app/shared/components/*"]
+
     },
     "target": "ES2022",
     "module": "preserve"

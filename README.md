@@ -1,59 +1,91 @@
-# EnglishTracker
+# English Tracker 🇬🇧
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.14.
+A modern, streamlined web application for tracking English learning progress. This tool helps learners maintain consistency by logging study sessions, categorizing activities, and visualizing progress through streaks and statistics.
 
-## Development server
+## 🚀 Features
 
-To start a local development server, run:
+- **Session Management**: Log your study sessions with duration, detailed notes, and specific topics.
+- **Categorized Tracking**: Organize your learning into key areas: Grammar, Listening, VocabularyComponent, Reading, Speaking, and Writing.
+- **Progress Visualization**:
+  - **Streaks**: Stay motivated with an interactive streak counter.
+  - **Total Stats**: View cumulative learning time and session counts.
+  - **Category Analysis**: Breakdown of your study focus across different English skills.
+- **Search & Filter**: Easily find past sessions using the integrated search functionality.
+- **Responsive Design**: Clean and interactive UI built with modern CSS techniques.
 
-```bash
-ng serve
+## 🛠 Tech Stack
+
+- **Frontend**: [Angular](https://angular.dev/) (v22+)
+- **State Management**: Signals-based reactivity for efficient updates.
+- **Testing**: [Vitest](https://vitest.dev/) for high-performance unit testing.
+- **Styling**: Vanilla CSS with custom properties (variables) for a lightweight and maintainable design system.
+- **Code Quality**:
+  - **ESLint**: Industry-standard linting.
+  - **Prettier**: Consistent code formatting.
+  - **Husky & Lint-staged**: Automated checks on every commit.
+- **Backend Communication**: RESTful API integration via Angular's `HttpClient`.
+
+## 📂 Project Structure
+
+The project follows a modular, feature-based architecture for scalability and maintainability:
+
+```text
+src/app/
+├── core/           # Singleton services, global providers, and layout components (Header)
+├── features/       # Feature-specific modules (Sessions, Stats, etc.)
+│   └── sessions/   # Main feature: components, services, models, and routes
+├── shared/         # Reusable UI components (Modals, Tags, etc.)
+└── styles/         # Global styles, variables, and component-level utilities
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚥 Getting Started
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- [npm](https://www.npmjs.com/)
 
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/english-tracker.git
+   cd english-tracker
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+Start the development server:
 ```bash
-ng generate component component-name
+npm start
 ```
+The app will be available at `http://localhost:4200/`.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Building
 
+To create a production-ready build:
 ```bash
-ng generate --help
+npm run build
 ```
+The output will be in the `dist/` directory.
 
-## Building
+### Testing & Linting
 
-To build the project run:
+- **Run unit tests**: `npm test`
+- **Lint code**: `npm run lint`
+- **Format code**: Prettier runs automatically via ESLint or can be triggered in your IDE.
 
-```bash
-ng build
+## ⚙️ Configuration
+
+The application connects to a backend API. Configuration can be found in `src/environment/environment.ts`:
+
+```typescript
+export const Environment = {
+  apiHost: 'http://localhost:3000/api', // Update this to your local or production API
+};
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

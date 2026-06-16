@@ -16,7 +16,7 @@ export class SessionCardComponent {
     return this.session().topics.reduce((acc) => acc + 1, 0);
   });
 
-  onDelete(id: string) {
+  deleteSession(id: string) {
     this.sessionDelete.emit(id);
   }
 }
