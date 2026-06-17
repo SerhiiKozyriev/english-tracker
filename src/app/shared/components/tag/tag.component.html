@@ -1,13 +1,13 @@
 <span
-  class="badge"
+  class="tag"
   [attr.data-variant]="variant()"
 >
   @if (marker() === 'dot') {
-    <span class="badge__dot"></span>
+    <span class="tag__dot"></span>
   }
 
   @if (marker() === 'check') {
-    <svg class="badge__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="tag__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
   }

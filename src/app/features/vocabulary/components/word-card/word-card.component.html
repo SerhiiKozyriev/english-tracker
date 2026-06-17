@@ -1,10 +1,57 @@
-<app-card>
+<app-card [attr.data-status]="word().status" (click)="toggleReveal()" class="word-card">
   <div class="word-card__header">
-    <div class="word-card__info">
-      <h3 class="word-card__word">{{ word().word }}</h3>
+    <h3 class="word-card__title">{{ word().word }}</h3>
+    @if (word().status === 'learned') {
+      <app-tag variant="success" marker="check">Learned</app-tag>
+    }
+  </div>
+
+  <div class="word-card__content">
+    @if (isRevealed()) {
       <p class="word-card__translation">{{ word().translation }}</p>
-      <p class="word-card__translation">{{ word().status }}</p>
+      @if (word().example) {
+        <p class="word-card__example">"{{ word().example }}"</p>
+      }
+    }
+  </div>
+
+  <div class="word-card__footer">
+    <span class="word-card__reveal-hint">
+      {{ isRevealed() ? 'tap to hide' : 'tap to reveal →' }}
+    </span>
+
+    <div class="word-card__actions">
+      <button
+        class="word-card__action"
+        [class.word-card__action--active]="word().status === 'learned'"
+        (click)="toggleLearned($event)"
+        title="Mark as learned"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
+
+      <button
+        class="word-card__action word-card__action--danger"
+        (click)="deleteWord($event)"
+        title="Delete word"
+      >
+        <svg
+          class="session-card__icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="3 6 5 6 21 6" />
+          <path
+            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+          />
+          <line x1="10" y1="11" x2="10" y2="17" />
+          <line x1="14" y1="11" x2="14" y2="17" />
+        </svg>
+      </button>
     </div>
   </div>
 </app-card>
-

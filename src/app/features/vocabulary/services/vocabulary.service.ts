@@ -22,6 +22,10 @@ export class VocabularyService {
     return this.http.post<Word>(`${Environment.apiHost}/vocabulary/`, word);
   }
 
+  updateWord(id: string, word: Partial<Word>): Observable<Word> {
+    return this.http.patch<Word>(`${Environment.apiHost}/vocabulary/${id}`, word);
+  }
+
   deleteWord(id: string): Observable<{ message: string; id: string }> {
     return this.http.delete<{ message: string; id: string }>(
       `${Environment.apiHost}/vocabulary/${id}`,

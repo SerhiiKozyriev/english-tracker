@@ -1,4 +1,4 @@
-.badge {
+.tag {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
@@ -10,7 +10,7 @@
   color: var(--variant-text);
 }
 
-.badge__dot {
+.tag__dot {
   display: inline-block;
   width: var(--size-marker);
   height: var(--size-marker);
@@ -19,7 +19,7 @@
   background-color: var(--variant-graphic);
 }
 
-.badge__check {
+.tag__check {
   display: inline-block;
   width: var(--size-icon-md);
   height: var(--size-icon-md);

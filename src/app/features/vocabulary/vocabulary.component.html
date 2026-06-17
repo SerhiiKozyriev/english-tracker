@@ -4,9 +4,22 @@
 
     <div class="vocabulary-page__list">
       @for (word of wordsResource.value(); track word._id) {
-        <app-word-card [word]="word" (wordDelete)="deleteWord($event)" />
+        <app-word-card
+          [word]="word"
+          (wordUpdate)="updateWord($event.id, $event.word)"
+          (wordDelete)="deleteWord($event)"
+        />
       }
     </div>
   </main>
-</div>
 
+  <aside class="vocabulary-page__sidebar">
+    <button type="button" class="btn" (click)="openAddWordModal()">
+      <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add word
+    </button>
+    <app-add-word-modal (wordAdded)="onWordAdded()" />
+  </aside>
+</div>

@@ -1,3 +1,9 @@
+.vocabulary-page {
+  display: grid;
+  grid-template-columns: 1fr var(--size-sidebar-width);
+  gap: var(--space-4xl);
+}
+
 .vocabulary-page__main {
   display: flex;
   flex-direction: column;
@@ -11,3 +17,8 @@
   align-items: stretch;
 }
 
+.vocabulary-page__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+}

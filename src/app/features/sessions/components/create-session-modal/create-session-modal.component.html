@@ -26,7 +26,7 @@
       @for (topic of createSessionModel().topics; track $index) {
         <div class="input-box">
           <app-category-tag [category]="topic.category"></app-category-tag>
-          <input type="text" class="input" [formField]="createSessionForm.topics[$index].desc" />
+          <input type="text" class="input" placeholder="Add topics separated by commas..." [formField]="createSessionForm.topics[$index].desc" />
         </div>
         @if (
           createSessionForm.topics[$index].desc().invalid() &&

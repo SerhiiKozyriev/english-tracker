@@ -33,7 +33,7 @@ export class CreateSessionModalComponent {
     variant: value.variant,
   }));
   private readonly initialFormData: CreateSessionDate = {
-    date: '',
+    date: new Date().toISOString().split('T')[0],
     notes: '',
     duration: 0,
     topics: [
