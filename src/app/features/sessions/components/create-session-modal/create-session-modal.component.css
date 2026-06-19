@@ -1,13 +1,18 @@
+:host {
+  display: contents;
+}
+
 .modal-row {
   display: flex;
   align-items: center;
   gap: var(--space-lg);
 }
 
-.input-duration{
+.input-duration {
   max-width: 100px;
 }
-.input-group--fluid{
+
+.input-group--fluid {
   flex: 1;
 }
 
@@ -47,14 +52,15 @@
   background-color: #fcfbfa;
   border: 1px solid #e8e7e3;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06),
-  0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.02);
   min-width: 150px;
   position-anchor: --category-select-anchor;
   top: anchor(bottom);
   left: anchor(left);
   margin: 0;
-  position-visibility: anchors-visible
+  position-visibility: anchors-visible;
 }
 
 .category-select__list {

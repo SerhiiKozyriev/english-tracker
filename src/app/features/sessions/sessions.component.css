@@ -1,7 +1,19 @@
 .sessions-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4xl);
+}
+
+.sessions-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sessions-page__container {
   display: grid;
   grid-template-columns: 1fr var(--size-sidebar-width);
-  gap: var(--space-4xl);
+  gap: var(--space-3xl);
 }
 
 .sessions-page__main {
@@ -21,4 +33,3 @@
   flex-direction: column;
   gap: var(--space-3xl);
 }
-

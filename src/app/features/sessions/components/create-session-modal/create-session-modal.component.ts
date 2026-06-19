@@ -1,10 +1,12 @@
 import {
   Component,
+  DestroyRef,
   inject,
   output,
   signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SessionTopic } from '../../models/sessions';
 import { applyEach, form, FormField, min, required } from '@angular/forms/signals';
 import { CategoryTagComponent } from '../category-tag/category-tag.component';
@@ -54,6 +56,7 @@ export class CreateSessionModalComponent {
   });
   private readonly modalComponent = viewChild(ModalComponent);
   private readonly sessionsService: SessionsService = inject(SessionsService);
+  private readonly destroyRef = inject(DestroyRef);
   resetForm(): void {
     this.createSessionForm().reset();
     this.createSessionModel.set(this.initialFormData);
@@ -81,10 +84,12 @@ export class CreateSessionModalComponent {
   }
 
   protected createSession(): void {
-    this.sessionsService.createSession(this.createSessionModel()).subscribe(() => {
-      this.sessionCreated.emit();
-      this.resetForm();
-      this.close();
-    });
+    this.sessionsService.createSession(this.createSessionModel())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.sessionCreated.emit();
+        this.resetForm();
+        this.close();
+      });
   }
 }

@@ -10,8 +10,6 @@ import { Session } from '../../models/sessions';
 export class TotalStatsCardComponent {
   sessions = input.required<Session[] | undefined>();
 
-  sessionsCount = computed(() => this.sessions()?.length);
-
   stats = computed(() => {
     const sessions = this.sessions() || [];
 

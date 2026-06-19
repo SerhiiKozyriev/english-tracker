@@ -8,14 +8,19 @@ import { Environment } from '../../../../environment/environment';
 export class VocabularyService {
   private readonly http: HttpClient = inject(HttpClient);
 
-  getWords(search?: string): Observable<Word[]> {
+  getWords(search?: string, status?: string): Observable<Word[]> {
     let params = new HttpParams();
 
-    if (search) {
-      params = params.set('search', search);
-    }
+    if (search) params = params.set('search', search);
+    if (status && status !== 'all') params = params.set('status', status);
 
     return this.http.get<Word[]>(`${Environment.apiHost}/vocabulary/`, { params });
+  }
+
+  getStats(): Observable<{ learned: number; learning: number; total: number }> {
+    return this.http.get<{ learned: number; learning: number; total: number }>(
+      `${Environment.apiHost}/vocabulary/stats`
+    );
   }
 
   createWord(word: Omit<Word, '_id' | 'createdAt'>): Observable<Word> {

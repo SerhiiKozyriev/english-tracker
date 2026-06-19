@@ -1,6 +1,22 @@
 <div class="page vocabulary-page">
+  <div class="vocabulary-page__header">
+    <div>
+      <h1>Vocabulary</h1>
+      <p>{{ wordsStatsResource.value()?.learned }} learned · {{ wordsStatsResource.value()?.learning }} in progress</p>
+    </div>
+    <button type="button" class="btn" (click)="openAddWordModal()">
+      <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      Add word
+    </button>
+    <app-add-word-modal (wordAdded)="onWordAdded()" />
+  </div>
   <main class="vocabulary-page__main">
-    <app-search [(value)]="searchQuery" placeholder="Search words or translations…" />
+    <div class="vocabulary-page__actions">
+      <app-search [(value)]="searchQuery" placeholder="Search words or translations…" />
+      <app-word-filter [(value)]="filterQuery" />
+    </div>
 
     <div class="vocabulary-page__list">
       @for (word of wordsResource.value(); track word._id) {
@@ -12,14 +28,4 @@
       }
     </div>
   </main>
-
-  <aside class="vocabulary-page__sidebar">
-    <button type="button" class="btn" (click)="openAddWordModal()">
-      <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      Add word
-    </button>
-    <app-add-word-modal (wordAdded)="onWordAdded()" />
-  </aside>
 </div>

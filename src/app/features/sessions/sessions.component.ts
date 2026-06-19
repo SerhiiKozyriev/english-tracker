@@ -1,7 +1,7 @@
-import { Component, computed, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { SessionsService } from './services/sessions.service';
 import { SearchComponent } from '@shared/components';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { SessionCardComponent } from './components/session-card/session-card.component';
 import { StreakCardComponent } from './components/streak-card/streak-card.component';
@@ -25,6 +25,11 @@ import { CreateSessionModalComponent } from './components/create-session-modal/c
 })
 export class SessionsComponent {
   protected readonly searchQuery = signal<string>('');
+  private readonly sessionsService: SessionsService = inject(SessionsService);
+  protected readonly sessionsResource = rxResource({
+    params: () => this.searchQuery(),
+    stream: ({ params }) => this.sessionsService.getSessions(params),
+  });
   protected readonly streak = computed(() => {
     const toDayNumber = (date: Date | string): number => {
       const d = new Date(date);
@@ -52,12 +57,8 @@ export class SessionsComponent {
 
     return streak;
   });
-  private readonly sessionsService: SessionsService = inject(SessionsService);
-  protected readonly sessionsResource = rxResource({
-    params: () => this.searchQuery(),
-    stream: ({ params }) => this.sessionsService.getSessions(params),
-  });
   private readonly addSessionModalComponent = viewChild(CreateSessionModalComponent);
+  private readonly destroyRef = inject(DestroyRef);
 
   openCreateSessionModal(): void {
     this.addSessionModalComponent()?.open();
@@ -68,6 +69,8 @@ export class SessionsComponent {
   }
 
   deleteSession(id: string): void {
-    this.sessionsService.deleteSession(id).subscribe(() => this.sessionsResource.reload());
+    this.sessionsService.deleteSession(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.sessionsResource.reload());
   }
 }

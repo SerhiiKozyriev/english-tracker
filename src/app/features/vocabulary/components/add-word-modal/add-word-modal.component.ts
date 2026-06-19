@@ -1,4 +1,5 @@
-import { Component, inject, output, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, inject, output, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, FormField, required } from '@angular/forms/signals';
 import { ModalComponent } from '@shared/components/modal/modal.component';
 import { VocabularyService } from '../../services/vocabulary.service';
@@ -36,6 +37,7 @@ export class AddWordModalComponent {
 
   private readonly modalComponent = viewChild(ModalComponent);
   private readonly vocabularyService: VocabularyService = inject(VocabularyService);
+  private readonly destroyRef = inject(DestroyRef);
 
   resetForm(): void {
     this.createWordForm().reset();
@@ -52,10 +54,12 @@ export class AddWordModalComponent {
   }
 
   protected createWord(): void {
-    this.vocabularyService.createWord(this.createWordModel()).subscribe(() => {
-      this.wordAdded.emit();
-      this.resetForm();
-      this.close();
-    });
+    this.vocabularyService.createWord(this.createWordModel())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.wordAdded.emit();
+        this.resetForm();
+        this.close();
+      });
   }
 }

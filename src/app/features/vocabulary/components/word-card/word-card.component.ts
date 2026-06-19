@@ -29,4 +29,12 @@ export class WordCardComponent {
     event.stopPropagation();
     this.wordDelete.emit(this.word()._id);
   }
+
+  speakWord(event: Event) {
+    event.stopPropagation();
+    const utterance = new SpeechSynthesisUtterance(this.word().word);
+    console.log(utterance);
+    utterance.lang = 'en-US';
+    window.speechSynthesis.speak(utterance);
+  }
 }

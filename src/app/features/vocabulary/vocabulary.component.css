@@ -1,13 +1,29 @@
 .vocabulary-page {
-  display: grid;
-  grid-template-columns: 1fr var(--size-sidebar-width);
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4xl);
+}
+
+.vocabulary-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .vocabulary-page__main {
   display: flex;
   flex-direction: column;
   gap: var(--space-3xl);
+}
+
+.vocabulary-page__actions {
+  display: flex;
+  gap: var(--space-3xl);
+  align-items: center;
+}
+
+.vocabulary-page__actions app-search {
+  flex: 1;
 }
 
 .vocabulary-page__list {

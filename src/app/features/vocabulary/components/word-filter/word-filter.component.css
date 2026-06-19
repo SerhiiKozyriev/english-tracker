@@ -1,0 +1,36 @@
+.word-filter {
+  display: flex;
+  background-color: var(--surface-primary);
+  border: var(--border-width) solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: var(--font-size-sm);
+  width: fit-content;
+}
+
+.word-filter__button {
+  padding: var(--space-md) var(--space-xl);
+  text-transform: capitalize;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
+  background-color: transparent;
+  color: var(--text-muted);
+  border: none;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+
+.word-filter__button:hover {
+  color: var(--text-primary);
+  background-color: var(--surface-secondary);
+}
+
+.word-filter__button--active {
+  background-color: var(--text-primary);
+  color: var(--surface-primary);
+}
+
+.word-filter__button--active:hover {
+  background-color: var(--text-primary);
+  color: var(--surface-primary);
+}
