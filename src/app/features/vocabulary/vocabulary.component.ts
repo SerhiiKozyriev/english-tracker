@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { SearchComponent } from '@shared/components';
 
-import { VocabularyService } from './services/vocabulary.service';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WordCardComponent } from './components/word-card/word-card.component';
 import { AddWordModalComponent } from './components/add-word-modal/add-word-modal.component';
+import { WordCardComponent } from './components/word-card/word-card.component';
 import { WordFilterComponent } from './components/word-filter/word-filter.component';
 import { Word } from './models/word';
+import { VocabularyService } from './services/vocabulary.service';
 
 @Component({
   selector: 'app-vocabulary',
@@ -17,10 +17,12 @@ import { Word } from './models/word';
   styleUrl: './vocabulary.component.css',
 })
 export class VocabularyComponent {
-  protected readonly searchQuery = signal<string>('');
+  private readonly addWordModalComponent = viewChild.required(AddWordModalComponent);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly filterQuery = signal<string>('all');
-  private readonly vocabularyService = inject(VocabularyService);
 
+  protected readonly searchQuery = signal<string>('');
+  private readonly vocabularyService = inject(VocabularyService);
   protected readonly wordsResource = rxResource({
     params: () => ({ search: this.searchQuery(), status: this.filterQuery() }),
     stream: ({ params }) => this.vocabularyService.getWords(params.search, params.status),
@@ -28,15 +30,20 @@ export class VocabularyComponent {
   protected readonly wordsStatsResource = rxResource({
     stream: () => this.vocabularyService.getStats(),
   });
-  private readonly addWordModalComponent = viewChild(AddWordModalComponent);
-  private readonly destroyRef = inject(DestroyRef);
 
-  openAddWordModal(): void {
-    this.addWordModalComponent()?.open();
+  deleteWord(id: string): void {
+    this.vocabularyService
+      .deleteWord(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.wordsResource.reload());
   }
 
   onWordAdded(): void {
     this.wordsResource.reload();
+  }
+
+  openAddWordModal(): void {
+    this.addWordModalComponent().open();
   }
 
   updateWord(id: string, word: Partial<Word>): void {
@@ -45,12 +52,4 @@ export class VocabularyComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.wordsResource.reload());
   }
-
-  deleteWord(id: string): void {
-    this.vocabularyService
-      .deleteWord(id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.wordsResource.reload());
-  }
 }
-

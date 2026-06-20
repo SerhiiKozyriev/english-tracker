@@ -8,6 +8,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './search.component.css',
 })
 export class SearchComponent {
-  readonly value = model<string>('');
   readonly placeholder = input.required<string>();
+  readonly value = model<string>('');
 }

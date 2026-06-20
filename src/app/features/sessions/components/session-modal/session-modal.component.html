@@ -1,37 +1,34 @@
-<app-modal [title]="'New session'">
+<app-modal [title]="title()">
   <ng-container modal-body>
     <div class="modal-row">
       <div class="input-group input-group--fluid">
         <label class="input-label">Date</label>
-        <input type="date" class="input" [formField]="createSessionForm.date" />
-        @if (createSessionForm.date().invalid() && createSessionForm.date().touched()) {
+        <input type="date" class="input" [formField]="form.date" />
+        @if (form.date().invalid() && form.date().touched()) {
           <div class="error">Date is required</div>
         }
       </div>
       <div class="input-group">
         <label class="input-label">Duration (min)</label>
-        <input
-          type="number"
-          class="input input-duration"
-          placeholder="45"
-          [formField]="createSessionForm.duration"
-        />
-        @if (createSessionForm.duration().invalid() && createSessionForm.duration().touched()) {
-          <div class="error">Date is required</div>
+        <input type="number" class="input input-duration" placeholder="45" [formField]="form.duration" />
+        @if (form.duration().invalid() && form.duration().touched()) {
+          <div class="error">Duration must be at least 10 mins</div>
         }
       </div>
     </div>
     <div class="input-group">
       <label class="input-label">Topics — press Enter to add</label>
-      @for (topic of createSessionModel().topics; track $index) {
+      @for (topic of model().topics; track $index) {
         <div class="input-box">
           <app-category-tag [category]="topic.category"></app-category-tag>
-          <input type="text" class="input" placeholder="Add topics separated by commas..." [formField]="createSessionForm.topics[$index].desc" />
+          <input
+            type="text"
+            class="input"
+            placeholder="Add topics separated by commas..."
+            [formField]="form.topics[$index].desc"
+          />
         </div>
-        @if (
-          createSessionForm.topics[$index].desc().invalid() &&
-          createSessionForm.topics[$index].desc().touched()
-        ) {
+        @if (form.topics[$index].desc().invalid() && form.topics[$index].desc().touched()) {
           <div class="error">Description is required</div>
         }
       }
@@ -61,19 +58,13 @@
       <textarea
         class="input input-notes"
         placeholder="What clicked today? What was hard?"
-        [formField]="createSessionForm.notes"
+        [formField]="form.notes"
         rows="3"
       ></textarea>
     </div>
   </ng-container>
   <ng-container modal-footer>
     <button class="btn btn--secondary" (click)="close()">Cancel</button>
-    <button
-      class="btn btn--primary"
-      (click)="createSession()"
-      [disabled]="createSessionForm().invalid()"
-    >
-      Save
-    </button>
+    <button class="btn btn--primary" (click)="saveSession()" [disabled]="form().invalid()">Save</button>
   </ng-container>
 </app-modal>

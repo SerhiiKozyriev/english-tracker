@@ -10,6 +10,6 @@ export type TagMarker = 'none' | 'dot' | 'check';
   styleUrl: './tag.component.css',
 })
 export class TagComponent {
-  variant = input<TagVariant>('default');
   marker = input<TagMarker>('none');
+  variant = input<TagVariant>('default');
 }

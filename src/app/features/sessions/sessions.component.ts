@@ -1,13 +1,13 @@
 import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
-import { SessionsService } from './services/sessions.service';
-import { SearchComponent } from '@shared/components';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { SessionCardComponent } from './components/session-card/session-card.component';
-import { StreakCardComponent } from './components/streak-card/streak-card.component';
+import { SearchComponent } from '@shared/components';
 import { CategoryStatsComponent } from './components/category-stats/category-stats.component';
+import { SessionCardComponent } from './components/session-card/session-card.component';
+import { SessionModalComponent } from './components/session-modal/session-modal.component';
+import { StreakCardComponent } from './components/streak-card/streak-card.component';
 import { TotalStatsCardComponent } from './components/total-stats-card/total-stats-card.component';
-import { CreateSessionModalComponent } from './components/create-session-modal/create-session-modal.component';
+import { Session, SessionFormModel } from './models/sessions';
+import { SessionsService } from './services/sessions.service';
 
 @Component({
   selector: 'app-sessions',
@@ -17,14 +17,17 @@ import { CreateSessionModalComponent } from './components/create-session-modal/c
     StreakCardComponent,
     TotalStatsCardComponent,
     CategoryStatsComponent,
-    CreateSessionModalComponent,
+    SessionModalComponent,
   ],
   providers: [SessionsService],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.css',
 })
 export class SessionsComponent {
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly searchQuery = signal<string>('');
+  protected readonly selectedSession = signal<Session | null>(null);
+  private readonly sessionModalComponent = viewChild.required(SessionModalComponent);
   private readonly sessionsService: SessionsService = inject(SessionsService);
   protected readonly sessionsResource = rxResource({
     params: () => this.searchQuery(),
@@ -57,20 +60,35 @@ export class SessionsComponent {
 
     return streak;
   });
-  private readonly addSessionModalComponent = viewChild(CreateSessionModalComponent);
-  private readonly destroyRef = inject(DestroyRef);
+  protected readonly title = computed(() => (this.selectedSession() ? 'Edit session' : 'Create session'));
 
-  openCreateSessionModal(): void {
-    this.addSessionModalComponent()?.open();
-  }
-
-  onSessionCreated(): void {
-    this.sessionsResource.reload();
+  createSession(): void {
+    this.selectedSession.set(null);
+    this.sessionModalComponent().open();
   }
 
   deleteSession(id: string): void {
-    this.sessionsService.deleteSession(id)
+    this.sessionsService
+      .deleteSession(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.sessionsResource.reload());
+  }
+
+  editSession(session: Session): void {
+    this.selectedSession.set(session);
+    this.sessionModalComponent().open();
+  }
+
+  onSessionSaved(data: SessionFormModel): void {
+    const session = this.selectedSession();
+
+    const request$ = session
+      ? this.sessionsService.updateSession(session._id, data)
+      : this.sessionsService.createSession(data);
+
+    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      this.sessionsResource.reload();
+      this.selectedSession.set(null);
+    });
   }
 }

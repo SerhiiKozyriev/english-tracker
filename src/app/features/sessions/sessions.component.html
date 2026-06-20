@@ -4,13 +4,12 @@
       <h1>Study sessions</h1>
       <p>{{ sessionsResource.value()?.length }} sessions recorded</p>
     </div>
-    <button type="button" class="btn" (click)="openCreateSessionModal()">
+    <button type="button" class="btn" (click)="createSession()">
       <svg class="btn__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
       Add session
     </button>
-    <app-create-session-modal (sessionCreated)="onSessionCreated()"></app-create-session-modal>
   </div>
 
   <div class="sessions-page__container">
@@ -19,7 +18,11 @@
 
       <div class="sessions-page__list">
         @for (session of sessionsResource.value(); track session._id) {
-          <app-session-card [session]="session" (sessionDelete)="deleteSession($event)" />
+          <app-session-card
+            [session]="session"
+            (sessionDelete)="deleteSession($event)"
+            (sessionEdit)="editSession($event)"
+          />
         }
       </div>
     </main>
@@ -32,3 +35,8 @@
     </aside>
   </div>
 </div>
+<app-session-modal
+  [title]="title()"
+  [session]="selectedSession()"
+  (sessionSaved)="onSessionSaved($event)"
+></app-session-modal>

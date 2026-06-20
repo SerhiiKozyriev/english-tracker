@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
+import { TopicCategory } from '../../models/category';
 import { Session } from '../../models/sessions';
 import { CategoryTagComponent } from '../category-tag/category-tag.component';
-import { TopicCategory } from '../../models/category';
 
 @Component({
   selector: 'app-category-stats',
@@ -24,8 +24,6 @@ export class CategoryStatsComponent {
         statsMap.set(topic.category, (statsMap.get(topic.category) || 0) + 1);
       }
     }
-    return Array.from(statsMap, ([category, count]) => ({ category, count })).sort(
-      (a, b) => b.count - a.count,
-    );
+    return Array.from(statsMap, ([category, count]) => ({ category, count })).sort((a, b) => b.count - a.count);
   });
 }

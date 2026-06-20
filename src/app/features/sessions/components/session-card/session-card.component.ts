@@ -9,8 +9,9 @@ import { CategoryTagComponent } from '../category-tag/category-tag.component';
   styleUrl: './session-card.component.css',
 })
 export class SessionCardComponent {
-  sessionDelete = output<string>();
   session = input.required<Session>();
+  sessionDelete = output<string>();
+  sessionEdit = output<Session>();
 
   totalItems = computed(() => {
     return this.session().topics.reduce((acc) => acc + 1, 0);
@@ -18,5 +19,9 @@ export class SessionCardComponent {
 
   deleteSession(id: string) {
     this.sessionDelete.emit(id);
+  }
+
+  editSession(session: Session) {
+    this.sessionEdit.emit(session);
   }
 }

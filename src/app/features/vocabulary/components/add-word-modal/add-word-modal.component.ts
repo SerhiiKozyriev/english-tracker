@@ -2,8 +2,8 @@ import { Component, DestroyRef, inject, output, signal, viewChild } from '@angul
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { form, FormField, required } from '@angular/forms/signals';
 import { ModalComponent } from '@shared/components/modal/modal.component';
-import { VocabularyService } from '../../services/vocabulary.service';
 import { WordStatus } from '../../models/word';
+import { VocabularyService } from '../../services/vocabulary.service';
 
 interface CreateWordData {
   word: string;
@@ -19,8 +19,6 @@ interface CreateWordData {
   styleUrl: './add-word-modal.component.css',
 })
 export class AddWordModalComponent {
-  wordAdded = output<void>();
-
   private readonly initialFormData: CreateWordData = {
     word: '',
     translation: '',
@@ -35,31 +33,34 @@ export class AddWordModalComponent {
     required(fields.translation);
   });
 
-  private readonly modalComponent = viewChild(ModalComponent);
-  private readonly vocabularyService: VocabularyService = inject(VocabularyService);
   private readonly destroyRef = inject(DestroyRef);
 
-  resetForm(): void {
-    this.createWordForm().reset();
-    this.createWordModel.set(this.initialFormData);
-  }
+  private readonly modalComponent = viewChild.required(ModalComponent);
+  private readonly vocabularyService: VocabularyService = inject(VocabularyService);
+  wordAdded = output<void>();
 
   close(): void {
     this.resetForm();
-    this.modalComponent()?.close();
-  }
-
-  open(): void {
-    this.modalComponent()?.open();
+    this.modalComponent().close();
   }
 
   protected createWord(): void {
-    this.vocabularyService.createWord(this.createWordModel())
+    this.vocabularyService
+      .createWord(this.createWordModel())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.wordAdded.emit();
         this.resetForm();
         this.close();
       });
+  }
+
+  open(): void {
+    this.modalComponent().open();
+  }
+
+  resetForm(): void {
+    this.createWordForm().reset();
+    this.createWordModel.set(this.initialFormData);
   }
 }

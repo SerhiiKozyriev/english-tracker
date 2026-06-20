@@ -13,6 +13,13 @@ describe('SessionCard', () => {
 
     fixture = TestBed.createComponent(SessionCardComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('session', {
+      _id: '1',
+      date: '2026-06-20',
+      notes: 'Test notes',
+      duration: 30,
+      topics: [],
+    });
     await fixture.whenStable();
   });
 

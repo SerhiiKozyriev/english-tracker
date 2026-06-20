@@ -1,12 +1,6 @@
 import { TagVariant } from '@shared/components/tag/tag.component';
 
-export type TopicCategory =
-  | 'grammar'
-  | 'listening'
-  | 'vocabulary'
-  | 'reading'
-  | 'speaking'
-  | 'writing';
+export type TopicCategory = 'grammar' | 'listening' | 'vocabulary' | 'reading' | 'speaking' | 'writing';
 
 export interface CategoryConfigItem {
   label: string;

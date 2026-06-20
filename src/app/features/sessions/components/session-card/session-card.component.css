@@ -50,6 +50,21 @@
   color: var(--session-card-muted);
 }
 
+.session-card__btn-edit {
+  transition: opacity var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+  padding: var(--space-xs);
+  border-radius: var(--space-xs);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--session-card-muted);
+
+  &:focus-visible,
+  &:hover {
+    color: var(--session-card-foreground);
+  }
+}
+
 .session-card__btn-delete {
   transition: opacity var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
   padding: var(--space-xs);

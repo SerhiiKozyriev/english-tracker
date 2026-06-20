@@ -1,6 +1,6 @@
 import { Component, input, output, signal } from '@angular/core';
+import { CardComponent, TagComponent } from '@shared/components';
 import { Word } from '../../models/word';
-import { TagComponent, CardComponent } from '@shared/components';
 
 @Component({
   selector: 'app-word-card',
@@ -9,21 +9,11 @@ import { TagComponent, CardComponent } from '@shared/components';
   styleUrl: './word-card.component.css',
 })
 export class WordCardComponent {
+  protected readonly isRevealed = signal(false);
   word = input.required<Word>();
   wordDelete = output<string>();
+
   wordUpdate = output<{ id: string; word: Partial<Word> }>();
-
-  protected readonly isRevealed = signal(false);
-
-  toggleReveal() {
-    this.isRevealed.update((v) => !v);
-  }
-
-  toggleLearned(event: Event) {
-    event.stopPropagation();
-    const newStatus = this.word().status === 'learned' ? 'learning' : 'learned';
-    this.wordUpdate.emit({ id: this.word()._id, word: { status: newStatus } });
-  }
 
   deleteWord(event: Event) {
     event.stopPropagation();
@@ -32,9 +22,19 @@ export class WordCardComponent {
 
   speakWord(event: Event) {
     event.stopPropagation();
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(this.word().word);
-    console.log(utterance);
     utterance.lang = 'en-US';
     window.speechSynthesis.speak(utterance);
+  }
+
+  toggleLearned(event: Event) {
+    event.stopPropagation();
+    const newStatus = this.word().status === 'learned' ? 'learning' : 'learned';
+    this.wordUpdate.emit({ id: this.word()._id, word: { status: newStatus } });
+  }
+
+  toggleReveal() {
+    this.isRevealed.update((v) => !v);
   }
 }

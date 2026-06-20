@@ -1,20 +1,40 @@
 // @ts-check
 const eslint = require('@eslint/js');
-const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
+const eslintConfigPrettier = require('eslint-config-prettier');
+const perfectionist = require('eslint-plugin-perfectionist');
 
-module.exports = defineConfig([
+module.exports = tseslint.config(
   {
     files: ['**/*.ts'],
     extends: [
       eslint.configs.recommended,
-      tseslint.configs.recommended,
-      tseslint.configs.stylistic,
-      angular.configs.tsRecommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
     ],
+    // Исправлено: plugins теперь объект
+    plugins: {
+      perfectionist: perfectionist,
+    },
     processor: angular.processInlineTemplates,
     rules: {
+      // Настройка сортировки классов от perfectionist
+      'perfectionist/sort-classes': [
+        'error',
+        {
+          type: 'alphabetical',
+          order: 'asc',
+          groups: ['property', 'constructor', 'angular-lifecycle', 'method', 'private-method'],
+          customGroups: [
+            {
+              elementNamePattern: '^ng[A-Z]',
+              groupName: 'angular-lifecycle',
+            },
+          ],
+        },
+      ],
       '@angular-eslint/directive-selector': [
         'error',
         {
@@ -35,10 +55,9 @@ module.exports = defineConfig([
   },
   {
     files: ['**/*.html'],
-    extends: [angular.configs.templateRecommended],
+    extends: [...angular.configs.templateRecommended],
     rules: {},
   },
-
   {
     files: ['src/app/core/**/*.ts'],
     rules: {
@@ -55,7 +74,11 @@ module.exports = defineConfig([
   },
   {
     files: ['src/app/shared/**/*.ts'],
+    plugins: {
+      perfectionist: perfectionist,
+    },
     rules: {
+      'perfectionist/sort-imports': 'error',
       'no-restricted-imports': [
         'error',
         {
@@ -79,11 +102,12 @@ module.exports = defineConfig([
           patterns: [
             {
               group: ['@feature/*', '@feature/**'],
-              message: 'Features are isolated! No cross-feature imports. ',
+              message: 'Features are isolated! No cross-feature imports.',
             },
           ],
         },
       ],
     },
   },
-]);
+  eslintConfigPrettier,
+);
