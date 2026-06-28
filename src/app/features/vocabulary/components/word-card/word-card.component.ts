@@ -12,12 +12,18 @@ export class WordCardComponent {
   protected readonly isRevealed = signal(false);
   word = input.required<Word>();
   wordDelete = output<string>();
+  wordEdit = output<Word>();
 
   wordUpdate = output<{ id: string; word: Partial<Word> }>();
 
   deleteWord(event: Event) {
     event.stopPropagation();
-    this.wordDelete.emit(this.word()._id);
+    this.wordDelete.emit(this.word().id);
+  }
+
+  editWord(event: Event) {
+    event.stopPropagation();
+    this.wordEdit.emit(this.word());
   }
 
   speakWord(event: Event) {
@@ -31,7 +37,7 @@ export class WordCardComponent {
   toggleLearned(event: Event) {
     event.stopPropagation();
     const newStatus = this.word().status === 'learned' ? 'learning' : 'learned';
-    this.wordUpdate.emit({ id: this.word()._id, word: { status: newStatus } });
+    this.wordUpdate.emit({ id: this.word().id, word: { status: newStatus } });
   }
 
   toggleReveal() {

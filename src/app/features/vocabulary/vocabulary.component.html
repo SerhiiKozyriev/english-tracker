@@ -10,7 +10,7 @@
       </svg>
       Add word
     </button>
-    <app-add-word-modal (wordAdded)="onWordAdded()" />
+    <app-add-word-modal [title]="title()" [word]="selectedWord()" (wordSaved)="onWordSaved($event)" />
   </div>
   <main class="vocabulary-page__main">
     <div class="vocabulary-page__actions">
@@ -19,11 +19,12 @@
     </div>
 
     <div class="vocabulary-page__list">
-      @for (word of wordsResource.value(); track word._id) {
+      @for (word of wordsResource.value(); track word.id) {
         <app-word-card
           [word]="word"
           (wordUpdate)="updateWord($event.id, $event.word)"
           (wordDelete)="deleteWord($event)"
+          (wordEdit)="editWord($event)"
         />
       }
     </div>

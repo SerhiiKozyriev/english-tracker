@@ -8,7 +8,7 @@ import { Word } from '../models/word';
 export class VocabularyService {
   private readonly http: HttpClient = inject(HttpClient);
 
-  createWord(word: Omit<Word, '_id' | 'createdAt'>): Observable<Word> {
+  createWord(word: Omit<Word, 'id' | 'createdAt'>): Observable<Word> {
     return this.http.post<Word>(`${Environment.apiHost}/vocabulary/`, word);
   }
 

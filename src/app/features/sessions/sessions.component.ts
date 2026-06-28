@@ -83,7 +83,7 @@ export class SessionsComponent {
     const session = this.selectedSession();
 
     const request$ = session
-      ? this.sessionsService.updateSession(session._id, data)
+      ? this.sessionsService.updateSession(session.id, data)
       : this.sessionsService.createSession(data);
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {

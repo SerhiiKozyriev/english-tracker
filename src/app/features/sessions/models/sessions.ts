@@ -1,9 +1,9 @@
 import { TopicCategory } from './category';
 
 export interface Session {
-  _id: string;
+  id: string;
   date: string;
-  notes: string | null;
+  notes: string;
   duration: number;
   topics: SessionTopic[];
 }
@@ -13,4 +13,4 @@ export interface SessionTopic {
   desc: string;
 }
 
-export type SessionFormModel = Omit<Session, '_id'>;
+export type SessionFormModel = Omit<Session, 'id'>;

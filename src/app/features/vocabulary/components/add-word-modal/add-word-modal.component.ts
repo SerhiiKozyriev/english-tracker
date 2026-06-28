@@ -1,16 +1,7 @@
-import { Component, DestroyRef, inject, output, signal, viewChild } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, input, linkedSignal, output, viewChild } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { ModalComponent } from '@shared/components/modal/modal.component';
-import { WordStatus } from '../../models/word';
-import { VocabularyService } from '../../services/vocabulary.service';
-
-interface CreateWordData {
-  word: string;
-  translation: string;
-  example: string;
-  status: WordStatus;
-}
+import { Word, WordFormModel } from '../../models/word';
 
 @Component({
   selector: 'app-add-word-modal',
@@ -19,40 +10,29 @@ interface CreateWordData {
   styleUrl: './add-word-modal.component.css',
 })
 export class AddWordModalComponent {
-  private readonly initialFormData: CreateWordData = {
+  private readonly initialFormData: WordFormModel = {
     word: '',
     translation: '',
     example: '',
     status: 'learning',
   };
 
-  protected readonly createWordModel = signal<CreateWordData>(this.initialFormData);
+  word = input<Word | null>(null);
+  protected readonly model = linkedSignal<WordFormModel>(() => this.word() ?? this.initialFormData);
 
-  protected readonly createWordForm = form(this.createWordModel, (fields) => {
+  protected readonly form = form(this.model, (fields) => {
     required(fields.word);
     required(fields.translation);
   });
 
-  private readonly destroyRef = inject(DestroyRef);
-
   private readonly modalComponent = viewChild.required(ModalComponent);
-  private readonly vocabularyService: VocabularyService = inject(VocabularyService);
-  wordAdded = output<void>();
+
+  title = input.required<string>();
+  wordSaved = output<WordFormModel>();
 
   close(): void {
     this.resetForm();
     this.modalComponent().close();
-  }
-
-  protected createWord(): void {
-    this.vocabularyService
-      .createWord(this.createWordModel())
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.wordAdded.emit();
-        this.resetForm();
-        this.close();
-      });
   }
 
   open(): void {
@@ -60,7 +40,13 @@ export class AddWordModalComponent {
   }
 
   resetForm(): void {
-    this.createWordForm().reset();
-    this.createWordModel.set(this.initialFormData);
+    this.form().reset();
+    this.model.set(this.initialFormData);
+  }
+
+  protected saveWord(): void {
+    if (this.form().invalid()) return;
+    this.wordSaved.emit(this.model());
+    this.close();
   }
 }

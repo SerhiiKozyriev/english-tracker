@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Tracker Word Collector</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="logo-grad" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6366f1"/>
+              <stop offset="1" stop-color="#8b5cf6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="app-title">English Tracker</span>
+      </div>
+      <div class="header-actions">
+      </div>
+    </header>
+
+
+    <!-- Main Content Area -->
+    <main class="app-content">
+      <!-- Vocabulary Form -->
+      <section class="form-section card">
+        <h2 class="section-title">Collect Word</h2>
+        
+        <div class="form-group">
+          <label for="word-input">Word / Phrase</label>
+          <div class="input-wrapper">
+            <input type="text" id="word-input" placeholder="Select word on page or type here..." required autocomplete="off">
+            <button id="clear-word-btn" class="input-inline-btn" title="Clear">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="translation-input">Translation</label>
+          <div class="input-with-action">
+            <input type="text" id="translation-input" placeholder="Type translation or auto-translate..." required autocomplete="off">
+            <button id="auto-translate-btn" class="btn accent-btn" title="Auto Translate via Google">
+              <span id="translate-btn-text">Auto Translate</span>
+              <svg id="translate-spinner" class="spinner hide" viewBox="0 0 24 24"><circle class="path" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3"></circle></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="example-input">Example Sentence (Context)</label>
+          <textarea id="example-input" rows="3" placeholder="Context sentence where the word was found..."></textarea>
+        </div>
+
+
+        <div class="form-actions">
+          <button id="add-word-btn" class="btn primary-btn full-btn">
+            <span id="add-btn-text">Add to Vocabulary</span>
+            <svg id="add-spinner" class="spinner hide" viewBox="0 0 24 24"><circle class="path" cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3"></circle></svg>
+          </button>
+        </div>
+        
+        <div id="message-container" class="message-container hide"></div>
+      </section>
+
+
+    </main>
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

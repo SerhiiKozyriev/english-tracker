@@ -1,10 +1,11 @@
 export type WordStatus = 'all' | 'learning' | 'learned';
 
 export interface Word {
-  _id: string;
+  id: string;
   word: string;
   translation: string;
   status: WordStatus;
   createdAt: string;
   example: string;
 }
+export type WordFormModel = Omit<Word, 'id' | 'createdAt'>;

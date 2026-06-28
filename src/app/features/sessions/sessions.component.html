@@ -17,7 +17,7 @@
       <app-search [(value)]="searchQuery" placeholder="Search topics, notes, dates…" />
 
       <div class="sessions-page__list">
-        @for (session of sessionsResource.value(); track session._id) {
+        @for (session of sessionsResource.value(); track session.id) {
           <app-session-card
             [session]="session"
             (sessionDelete)="deleteSession($event)"

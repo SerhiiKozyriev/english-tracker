@@ -1,17 +1,17 @@
-<app-modal [title]="'New word'">
+<app-modal [title]="title()">
   <ng-container modal-body>
     <div class="input-group">
       <label class="input-label">Word</label>
-      <input type="text" class="input" placeholder="e.g. Ubiquitous" [formField]="createWordForm.word" />
-      @if (createWordForm.word().invalid() && createWordForm.word().touched()) {
+      <input type="text" class="input" placeholder="e.g. Ubiquitous" [formField]="form.word" />
+      @if (form.word().invalid() && form.word().touched()) {
         <div class="error">Word is required</div>
       }
     </div>
 
     <div class="input-group">
       <label class="input-label">Translation</label>
-      <input type="text" class="input" placeholder="e.g. Вездесущий" [formField]="createWordForm.translation" />
-      @if (createWordForm.translation().invalid() && createWordForm.translation().touched()) {
+      <input type="text" class="input" placeholder="e.g. Вездесущий" [formField]="form.translation" />
+      @if (form.translation().invalid() && form.translation().touched()) {
         <div class="error">Translation is required</div>
       }
     </div>
@@ -21,7 +21,7 @@
       <textarea
         class="input input-example"
         placeholder="Coffee shops are ubiquitous in this city."
-        [formField]="createWordForm.example"
+        [formField]="form.example"
         rows="3"
       ></textarea>
     </div>
@@ -29,6 +29,6 @@
 
   <ng-container modal-footer>
     <button class="btn btn--secondary" (click)="close()">Cancel</button>
-    <button class="btn btn--primary" (click)="createWord()" [disabled]="createWordForm().invalid()">Save</button>
+    <button class="btn btn--primary" (click)="saveWord()" [disabled]="form().invalid()">Save</button>
   </ng-container>
 </app-modal>
