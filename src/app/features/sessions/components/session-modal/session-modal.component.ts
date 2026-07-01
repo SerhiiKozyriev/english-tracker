@@ -1,23 +1,16 @@
 import { Component, input, linkedSignal, output, viewChild } from '@angular/core';
 import { applyEach, form, FormField, min, required } from '@angular/forms/signals';
+import { CategoryDropdownComponent, CategoryTagComponent, TopicCategory } from '@app/shared/category';
 import { ModalComponent } from '@shared/components/modal/modal.component';
-import { categoryToTagMap, TopicCategory } from '../../models/category';
 import { Session, SessionFormModel } from '../../models/sessions';
-import { CategoryTagComponent } from '../category-tag/category-tag.component';
 
 @Component({
   selector: 'app-session-modal',
-  imports: [ModalComponent, FormField, CategoryTagComponent],
+  imports: [ModalComponent, FormField, CategoryTagComponent, CategoryDropdownComponent],
   templateUrl: './session-modal.component.html',
   styleUrl: './session-modal.component.css',
 })
 export class SessionModalComponent {
-  protected readonly categoriesList = Object.entries(categoryToTagMap).map(([key, value]) => ({
-    key: key as TopicCategory,
-    label: value.label,
-    variant: value.variant,
-  }));
-
   private readonly initialFormData: SessionFormModel = {
     date: new Date().toISOString().split('T')[0],
     notes: '',

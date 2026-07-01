@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
+import { CategoryTagComponent } from '@app/shared/category';
 import { Session } from '../../models/sessions';
-import { CategoryTagComponent } from '../category-tag/category-tag.component';
 
 @Component({
   selector: 'app-session-card',

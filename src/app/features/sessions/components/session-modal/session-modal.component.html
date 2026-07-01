@@ -32,26 +32,7 @@
           <div class="error">Description is required</div>
         }
       }
-      <div class="category-select">
-        <button type="button" class="category-select__trigger" popovertarget="category-menu">
-          <span class="category-select__trigger-icon category-select__trigger-icon--plus">+</span>
-          <span class="category-select__trigger-text">Add category</span>
-        </button>
-
-        <div class="category-select__dropdown" popover id="category-menu">
-          <ul class="category-select__list">
-            @for (category of categoriesList; track category.key) {
-              <li class="category-select__item" (click)="selectCategory(category.key)">
-                <span class="category-select__dot" [attr.data-variant]="category.variant"> </span>
-
-                <span class="category-select__item-text">
-                  {{ category.label }}
-                </span>
-              </li>
-            }
-          </ul>
-        </div>
-      </div>
+      <app-category-dropdown (categorySelected)="selectCategory($event)" />
     </div>
     <div class="input-group">
       <label class="input-label">Notes (optional)</label>

@@ -15,9 +15,7 @@ const messageContainer = document.getElementById('message-container');
 const API_HOST = 'http://localhost:3000/api';
 const TARGET_LANG = 'ru';
 
-// Initialize Sidepanel
 document.addEventListener('DOMContentLoaded', async () => {
-  // Load active selection from storage
   chrome.storage.local.get(['activeSelection'], (result) => {
     if (result.activeSelection) {
       handleNewSelection(result.activeSelection);
@@ -27,9 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupListeners();
 });
 
-// Setup Listeners
 function setupListeners() {
-  // Clear word button
   clearWordBtn.addEventListener('click', () => {
     wordInput.value = '';
     clearWordBtn.style.display = 'none';
@@ -39,13 +35,10 @@ function setupListeners() {
     clearWordBtn.style.display = wordInput.value ? 'flex' : 'none';
   });
 
-  // Auto Translate
   autoTranslateBtn.addEventListener('click', handleAutoTranslate);
 
-  // Add Word Form Submission
   addWordBtn.addEventListener('click', handleAddWord);
 
-  // Listen for storage changes (e.g. user selects new word on page)
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'local' && changes.activeSelection) {
       handleNewSelection(changes.activeSelection.newValue);
@@ -61,11 +54,9 @@ async function handleNewSelection(selection) {
   exampleInput.value = selection.example || '';
   clearWordBtn.style.display = 'flex';
 
-  // Clear previous translations/messages
   translationInput.value = '';
   hideFeedback();
 
-  // Automatically translate the word in the background
   if (selection.word) {
     try {
       autoTranslateBtn.disabled = true;
@@ -140,7 +131,6 @@ async function handleAddWord() {
     return;
   }
 
-  // Set loading state
   addWordBtn.disabled = true;
   addSpinner.classList.remove('hide');
   addBtnText.textContent = 'Adding Word...';
@@ -165,13 +155,11 @@ async function handleAddWord() {
 
     showFeedback(`"${word}" added successfully!`, "success");
 
-    // Reset form inputs
     wordInput.value = '';
     translationInput.value = '';
     exampleInput.value = '';
     clearWordBtn.style.display = 'none';
 
-    // Clear active selection in storage so it doesn't prefill on reload
     chrome.storage.local.remove('activeSelection');
 
   } catch (error) {
@@ -184,13 +172,11 @@ async function handleAddWord() {
   }
 }
 
-// Helper: Show Feedback Message
 function showFeedback(text, type) {
   messageContainer.textContent = text;
   messageContainer.className = `message-container ${type}`;
   messageContainer.classList.remove('hide');
 
-  // Auto-hide success messages after 4 seconds
   if (type === 'success') {
     setTimeout(() => {
       if (messageContainer.textContent === text) {

@@ -13,6 +13,7 @@ describe('CategoryTag', () => {
 
     fixture = TestBed.createComponent(CategoryTagComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('category', 'grammar');
     await fixture.whenStable();
   });
 

@@ -5,7 +5,6 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['selection'],
   });
 
-  // Set default values if not already present
   chrome.storage.local.get(['targetLang'], (result) => {
     if (!result.targetLang) {
       chrome.storage.local.set({ targetLang: 'ru' });
@@ -13,7 +12,6 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// Configure side panel to open when extension icon is clicked
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error) => console.error('Error setting panel behavior:', error));

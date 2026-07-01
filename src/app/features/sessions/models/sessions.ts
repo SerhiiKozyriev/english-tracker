@@ -1,4 +1,4 @@
-import { TopicCategory } from './category';
+import { TopicCategory } from '@app/shared/category';
 
 export interface Session {
   id: string;

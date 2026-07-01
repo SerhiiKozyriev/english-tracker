@@ -1,7 +1,6 @@
 import { Component, computed, input } from '@angular/core';
-import { TopicCategory } from '../../models/category';
+import { CategoryTagComponent, TopicCategory } from '@app/shared/category';
 import { Session } from '../../models/sessions';
-import { CategoryTagComponent } from '../category-tag/category-tag.component';
 
 @Component({
   selector: 'app-category-stats',

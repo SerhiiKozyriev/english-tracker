@@ -14,13 +14,11 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
-    // Исправлено: plugins теперь объект
     plugins: {
       perfectionist: perfectionist,
     },
     processor: angular.processInlineTemplates,
     rules: {
-      // Настройка сортировки классов от perfectionist
       'perfectionist/sort-classes': [
         'error',
         {
