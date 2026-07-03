@@ -5,7 +5,7 @@
 .modal {
   border: none;
   padding: 0;
-  max-width: 450px;
+  max-width: var(--modal-width, 450px);
   width: 100%;
   background-color: var(--surface-primary);
   border-radius: var(--radius-lg);

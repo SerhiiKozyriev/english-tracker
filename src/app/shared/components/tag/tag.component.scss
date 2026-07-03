@@ -1,0 +1,91 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  box-sizing: border-box;
+
+  /* Intent styling (controls colors via CSS custom properties) */
+  &[data-intent='default'] {
+    --variant-bg: var(--surface-secondary);
+    --variant-text: var(--text-muted);
+    --variant-graphic: var(--text-muted);
+  }
+  &[data-intent='success'] {
+    --variant-bg: var(--intent-success-bg);
+    --variant-text: var(--intent-success-text);
+    --variant-graphic: var(--intent-success-graphic);
+  }
+  &[data-intent='info'] {
+    --variant-bg: var(--intent-info-bg);
+    --variant-text: var(--intent-info-text);
+    --variant-graphic: var(--intent-info-graphic);
+  }
+  &[data-intent='warning'] {
+    --variant-bg: var(--intent-warning-bg);
+    --variant-text: var(--intent-warning-text);
+    --variant-graphic: var(--intent-warning-graphic);
+  }
+  &[data-intent='danger'] {
+    --variant-bg: var(--intent-danger-bg);
+    --variant-text: var(--intent-danger-text);
+    --variant-graphic: var(--intent-danger-graphic);
+  }
+  &[data-intent='accent'] {
+    --variant-bg: var(--intent-accent-bg);
+    --variant-text: var(--intent-accent-text);
+    --variant-graphic: var(--intent-accent-graphic);
+  }
+
+  &[data-variant='badge'] {
+    border-radius: var(--radius-pill);
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--variant-bg);
+    color: var(--variant-text);
+  }
+
+  &[data-variant='list-item'] {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-xl);
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    transition:
+      background-color var(--duration-fast),
+      color var(--duration-fast);
+    cursor: pointer;
+
+    &:hover,
+    &.is-active {
+      background-color: var(--app-background);
+      color: var(--text-primary);
+    }
+  }
+}
+
+.tag__dot {
+  display: inline-block;
+  width: var(--size-marker);
+  height: var(--size-marker);
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: var(--variant-graphic);
+}
+
+.tag__check {
+  display: inline-block;
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  flex-shrink: 0;
+}
+
+.tag__label {
+  line-height: 1;
+}

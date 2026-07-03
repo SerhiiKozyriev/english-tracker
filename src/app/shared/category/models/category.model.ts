@@ -1,1 +1,5 @@
-export type TopicCategory = 'grammar' | 'listening' | 'vocabulary' | 'reading' | 'speaking' | 'writing';
+export interface Category {
+  id: string;
+  slug: string;
+  display_name: string;
+}

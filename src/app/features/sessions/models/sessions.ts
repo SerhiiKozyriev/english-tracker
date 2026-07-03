@@ -1,4 +1,4 @@
-import { TopicCategory } from '@app/shared/category';
+import { Category } from '@app/shared/category';
 
 export interface Session {
   id: string;
@@ -9,7 +9,7 @@ export interface Session {
 }
 
 export interface SessionTopic {
-  category: TopicCategory;
+  category: Category;
   desc: string;
 }
 

@@ -31,7 +31,7 @@
       <app-streak-card [streak]="streak()" />
 
       <app-stats-card [sessions]="sessionsResource.value()"></app-stats-card>
-      <app-category-stats [sessions]="sessionsResource.value()"></app-category-stats>
+      <app-category-stats [sessions]="sessionsResource.value() || []"></app-category-stats>
     </aside>
   </div>
 </div>
@@ -39,4 +39,5 @@
   [title]="title()"
   [session]="selectedSession()"
   (sessionSaved)="onSessionSaved($event)"
+  (modalClosed)="onModalClosed()"
 ></app-session-modal>

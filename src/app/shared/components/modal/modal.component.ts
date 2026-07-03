@@ -1,4 +1,4 @@
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -7,11 +7,16 @@ import { Component, ElementRef, input, viewChild } from '@angular/core';
   styleUrl: './modal.component.css',
 })
 export class ModalComponent {
+  modalClosed = output<void>();
   private modalEl = viewChild.required<ElementRef<HTMLDialogElement>>('modal');
   title = input.required<string>();
 
   close(): void {
     this.modalEl().nativeElement.close();
+  }
+
+  onClose(): void {
+    this.modalClosed.emit();
   }
 
   open(): void {

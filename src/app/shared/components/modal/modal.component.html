@@ -1,4 +1,4 @@
-<dialog class="modal" #modal>
+<dialog class="modal" #modal (close)="onClose()">
   <header class="modal__header">
     <h2 class="modal__title">{{ title() }}</h2>
     <button class="modal__close-btn" aria-label="Close modal" (click)="close()">&times;</button>

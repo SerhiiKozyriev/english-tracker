@@ -1,14 +1,16 @@
 import { Component, computed, input, output } from '@angular/core';
-import { CategoryTagComponent } from '@app/shared/category';
+import { CATEGORIES_CONFIG } from '@app/shared/category';
+import { TagComponent } from '@shared/components';
 import { Session } from '../../models/sessions';
 
 @Component({
   selector: 'app-session-card',
-  imports: [CategoryTagComponent],
+  imports: [TagComponent],
   templateUrl: './session-card.component.html',
   styleUrl: './session-card.component.css',
 })
 export class SessionCardComponent {
+  protected readonly categoriesConfig = CATEGORIES_CONFIG;
   session = input.required<Session>();
   sessionDelete = output<string>();
   sessionEdit = output<Session>();

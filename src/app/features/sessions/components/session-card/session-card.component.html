@@ -34,10 +34,16 @@
   </div>
 
   <div class="session-card__content">
-    @for (topic of session().topics; track topic.category) {
+    @for (topic of session().topics; track topic.category.id) {
       <div class="session-card__topic-group">
         <ul class="session-card__items-list">
-          <li><app-category-tag [category]="topic.category" /></li>
+          <li>
+            <app-tag
+              [label]="categoriesConfig[topic.category.slug].label"
+              [intent]="categoriesConfig[topic.category.slug].intent"
+              marker="dot"
+            />
+          </li>
           @for (item of topic.desc.split(','); track item) {
             <li class="session-card__item">
               {{ item }}

@@ -1,4 +1,4 @@
-<app-modal [title]="title()">
+<app-modal [title]="title()" (modalClosed)="onModalClose()">
   <ng-container modal-body>
     <div class="modal-row">
       <div class="input-group input-group--fluid">
@@ -12,27 +12,48 @@
         <label class="input-label">Duration (min)</label>
         <input type="number" class="input input-duration" placeholder="45" [formField]="form.duration" />
         @if (form.duration().invalid() && form.duration().touched()) {
-          <div class="error">Duration must be at least 10 mins</div>
+          <div class="session-modal__error">Duration must be at least 10 mins</div>
         }
       </div>
     </div>
-    <div class="input-group">
-      <label class="input-label">Topics — press Enter to add</label>
-      @for (topic of model().topics; track $index) {
-        <div class="input-box">
-          <app-category-tag [category]="topic.category"></app-category-tag>
-          <input
-            type="text"
-            class="input"
-            placeholder="Add topics separated by commas..."
-            [formField]="form.topics[$index].desc"
-          />
-        </div>
-        @if (form.topics[$index].desc().invalid() && form.topics[$index].desc().touched()) {
-          <div class="error">Description is required</div>
+
+    <div class="session-modal__split-section">
+      <div class="session-modal__sidebar">
+        @if (categoriesResource.value(); as categories) {
+          @for (category of categories; track category.id) {
+            <app-tag
+              [label]="category.display_name"
+              variant="list-item"
+              [intent]="categoriesConfig[category.slug].intent"
+              marker="dot"
+              (click)="selectCategory(category)"
+            />
+          }
+        } @else {
+          <div class="session-modal__sidebar-loading">Loading...</div>
         }
-      }
-      <app-category-dropdown (categorySelected)="selectCategory($event)" />
+      </div>
+
+      <div class="session-modal__content-pane">
+        {{ selectedCategory()?.display_name + ' topics' }}
+
+        @for (desc of topicsBySelectedCategory()?.desc?.split(','); track desc) {
+          <app-tag
+            [label]="desc"
+            variant="list-item"
+            [intent]="categoriesConfig[topicsBySelectedCategory()?.category?.slug || ''].intent || ''"
+            marker="check"
+          />
+        }
+
+        <input
+          #newTopicInput
+          type="text"
+          class="input"
+          placeholder="Add topic, press Enter..."
+          (keydown.enter)="addTopic($event)"
+        />
+      </div>
     </div>
     <div class="input-group">
       <label class="input-label">Notes (optional)</label>

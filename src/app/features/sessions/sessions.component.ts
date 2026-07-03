@@ -60,7 +60,7 @@ export class SessionsComponent {
 
     return streak;
   });
-  protected readonly title = computed(() => (this.selectedSession() ? 'Edit session' : 'Create session'));
+  protected readonly title = computed(() => (this.selectedSession() ? 'Edit session' : 'New session'));
 
   createSession(): void {
     this.selectedSession.set(null);
@@ -76,7 +76,12 @@ export class SessionsComponent {
 
   editSession(session: Session): void {
     this.selectedSession.set(session);
+    console.log(this.selectedSession());
     this.sessionModalComponent().open();
+  }
+
+  onModalClosed(): void {
+    this.selectedSession.set(null);
   }
 
   onSessionSaved(data: SessionFormModel): void {

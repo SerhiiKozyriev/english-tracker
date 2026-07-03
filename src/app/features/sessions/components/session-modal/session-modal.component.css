@@ -1,10 +1,11 @@
 :host {
   display: contents;
+  --modal-width: 600px;
 }
 
 .modal-row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: var(--space-lg);
 }
 
@@ -20,3 +21,23 @@
   resize: none;
 }
 
+.session-modal__split-section {
+  display: flex;
+  border-top: var(--border-width) solid var(--border-default);
+  border-bottom: var(--border-width) solid var(--border-default);
+}
+
+.session-modal__sidebar {
+  width: 100%;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--border-width) solid var(--border-default);
+  padding: var(--space-xl) 0;
+}
+.session-modal__content-pane {
+  display: flex;
+  flex-direction: column;
+  flex:1;
+  padding: var(--space-xl) var(--space-md);
+}

@@ -1,28 +1,33 @@
 import { Component, computed, input } from '@angular/core';
-import { CategoryTagComponent, TopicCategory } from '@app/shared/category';
+import { CATEGORIES_CONFIG, Category } from '@app/shared/category';
+import { TagComponent } from '@shared/components';
 import { Session } from '../../models/sessions';
 
 @Component({
   selector: 'app-category-stats',
-  imports: [CategoryTagComponent],
+  imports: [TagComponent],
   templateUrl: './category-stats.component.html',
   styleUrl: './category-stats.component.css',
 })
 export class CategoryStatsComponent {
-  sessions = input.required<Session[] | undefined>();
+  protected readonly categoriesConfig = CATEGORIES_CONFIG;
+  sessions = input.required<Session[]>();
 
   categoriesData = computed(() => {
     if (!this.sessions()?.length) return [];
+    const statsMap = new Map<string, { category: Category; count: number }>();
 
-    const statsMap = new Map<TopicCategory, number>();
-
-    for (const session of this.sessions() || []) {
-      if (!session.topics) continue;
-
+    for (const session of this.sessions()) {
       for (const topic of session.topics) {
-        statsMap.set(topic.category, (statsMap.get(topic.category) || 0) + 1);
+        const { id } = topic.category;
+        const currentCount = statsMap.get(id)?.count ?? 0;
+
+        statsMap.set(id, {
+          category: topic.category,
+          count: currentCount + 1,
+        });
       }
     }
-    return Array.from(statsMap, ([category, count]) => ({ category, count })).sort((a, b) => b.count - a.count);
+    return Array.from(statsMap.values()).sort((a, b) => b.count - a.count);
   });
 }
