@@ -13,4 +13,17 @@ export interface SessionTopic {
   desc: string;
 }
 
-export type SessionFormModel = Omit<Session, 'id'>;
+export interface SessionFormModel {
+  date: string;
+  notes: string;
+  duration: number;
+  topics: SessionTopic[];
+}
+
+export interface SessionStats {
+  sessionsCount: number;
+  hours: number;
+  minutes: number;
+  topicsCount: number;
+  statsByCategory: Record<string, number>;
+}

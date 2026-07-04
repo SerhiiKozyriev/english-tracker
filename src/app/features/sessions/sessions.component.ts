@@ -1,6 +1,7 @@
 import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SearchComponent } from '@shared/components';
+import { CategoryService } from '../../shared/category';
 import { CategoryStatsComponent } from './components/category-stats/category-stats.component';
 import { SessionCardComponent } from './components/session-card/session-card.component';
 import { SessionModalComponent } from './components/session-modal/session-modal.component';
@@ -19,11 +20,15 @@ import { SessionsService } from './services/sessions.service';
     CategoryStatsComponent,
     SessionModalComponent,
   ],
-  providers: [SessionsService],
+  providers: [SessionsService, CategoryService],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.css',
 })
 export class SessionsComponent {
+  private readonly categoryService = inject(CategoryService);
+  protected readonly categoriesResource = rxResource({
+    stream: () => this.categoryService.getCategories(),
+  });
   private readonly destroyRef = inject(DestroyRef);
   protected readonly searchQuery = signal<string>('');
   protected readonly selectedSession = signal<Session | null>(null);
@@ -32,6 +37,9 @@ export class SessionsComponent {
   protected readonly sessionsResource = rxResource({
     params: () => this.searchQuery(),
     stream: ({ params }) => this.sessionsService.getSessions(params),
+  });
+  protected readonly statsResource = rxResource({
+    stream: () => this.sessionsService.getStats(),
   });
   protected readonly streak = computed(() => {
     const toDayNumber = (date: Date | string): number => {
@@ -71,12 +79,14 @@ export class SessionsComponent {
     this.sessionsService
       .deleteSession(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.sessionsResource.reload());
+      .subscribe(() => {
+        this.sessionsResource.reload();
+        this.statsResource.reload();
+      });
   }
 
   editSession(session: Session): void {
     this.selectedSession.set(session);
-    console.log(this.selectedSession());
     this.sessionModalComponent().open();
   }
 
@@ -93,6 +103,7 @@ export class SessionsComponent {
 
     request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.sessionsResource.reload();
+      this.statsResource.reload();
       this.selectedSession.set(null);
     });
   }

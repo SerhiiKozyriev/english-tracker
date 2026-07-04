@@ -30,14 +30,15 @@
     <aside class="sessions-page__sidebar">
       <app-streak-card [streak]="streak()" />
 
-      <app-stats-card [sessions]="sessionsResource.value()"></app-stats-card>
-      <app-category-stats [sessions]="sessionsResource.value() || []"></app-category-stats>
+      <app-stats-card [stats]="statsResource.value()"></app-stats-card>
+      <app-category-stats [statsByCategory]="statsResource.value()?.statsByCategory"></app-category-stats>
     </aside>
   </div>
 </div>
 <app-session-modal
   [title]="title()"
   [session]="selectedSession()"
+  [categories]="categoriesResource.value() || []"
   (sessionSaved)="onSessionSaved($event)"
   (modalClosed)="onModalClosed()"
 ></app-session-modal>

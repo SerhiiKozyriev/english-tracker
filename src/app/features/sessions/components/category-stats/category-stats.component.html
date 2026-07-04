@@ -2,14 +2,10 @@
   <p class="category-stats__title">By category</p>
 
   <div class="category-stats__list">
-    @for (cat of categoriesData(); track cat.category.id) {
+    @for (slug of categoriesData(); track slug) {
       <div class="category-stats__item">
-        <app-tag
-          [label]="categoriesConfig[cat.category.slug].label"
-          [intent]="categoriesConfig[cat.category.slug].intent"
-          marker="dot"
-        ></app-tag>
-        <span class="category-stats__count">{{ cat.count }}</span>
+        <app-tag [label]="categoriesConfig[slug].label" [intent]="categoriesConfig[slug].intent" marker="dot"></app-tag>
+        <span class="category-stats__count">{{ statsByCategory()?.[slug] }}</span>
       </div>
     }
   </div>

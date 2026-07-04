@@ -1,23 +1,25 @@
 <div class="stats-card">
   <p class="stats-card__title">All time</p>
 
-  <div class="stats-card__row">
-    <span class="stats-card__label">Sessions</span>
-    <span class="stats-card__value">{{ stats().sessionsCount }}</span>
-  </div>
+  @if (stats(); as s) {
+    <div class="stats-card__row">
+      <span class="stats-card__label">Sessions</span>
+      <span class="stats-card__value">{{ s.sessionsCount }}</span>
+    </div>
 
-  <div class="stats-card__row">
-    <span class="stats-card__label">Study time</span>
-    <span class="stats-card__value">
-      @if (stats().hours > 0) {
-        {{ stats().hours }}h
-      }
-      {{ stats().minutes }}m
-    </span>
-  </div>
+    <div class="stats-card__row">
+      <span class="stats-card__label">Study time</span>
+      <span class="stats-card__value">
+        @if (s.hours > 0) {
+          {{ s.hours }}h
+        }
+        {{ s.minutes }}m
+      </span>
+    </div>
 
-  <div class="stats-card__row">
-    <span class="stats-card__label">Topics</span>
-    <span class="stats-card__value">{{ stats().topicsCount }}</span>
-  </div>
+    <div class="stats-card__row">
+      <span class="stats-card__label">Topics</span>
+      <span class="stats-card__value">{{ s.topicsCount }}</span>
+    </div>
+  }
 </div>

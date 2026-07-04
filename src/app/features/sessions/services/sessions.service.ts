@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Environment } from '../../../../environment/environment';
-import { Session } from '../models/sessions';
+import { Session, SessionStats } from '../models/sessions';
 
 @Injectable()
 export class SessionsService {
@@ -24,6 +24,10 @@ export class SessionsService {
     }
 
     return this.http.get<Session[]>(`${Environment.apiHost}/sessions/`, { params });
+  }
+
+  getStats(): Observable<SessionStats> {
+    return this.http.get<SessionStats>(`${Environment.apiHost}/sessions/stats`);
   }
 
   updateSession(id: string, session: Partial<Session>): Observable<Session> {
