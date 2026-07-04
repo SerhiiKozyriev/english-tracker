@@ -1,7 +1,6 @@
-import { Component, computed, inject, input, linkedSignal, output, viewChild } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { applyEach, form, FormField, min, required } from '@angular/forms/signals';
-import { CATEGORIES_CONFIG, Category, CategoryService } from '@app/shared/category';
+import { Component, computed, input, linkedSignal, output, viewChild } from '@angular/core';
+import { form, FormField, min, required, validate } from '@angular/forms/signals';
+import { CATEGORIES_CONFIG, Category } from '@app/shared/category';
 import { ModalComponent, TagComponent } from '@shared/components';
 import { Session, SessionFormModel } from '../../models/sessions';
 
@@ -10,14 +9,10 @@ import { Session, SessionFormModel } from '../../models/sessions';
   imports: [ModalComponent, FormField, TagComponent],
   templateUrl: './session-modal.component.html',
   styleUrl: './session-modal.component.css',
-  providers: [CategoryService],
 })
 export class SessionModalComponent {
+  categories = input.required<Category[]>();
   protected readonly categoriesConfig = CATEGORIES_CONFIG;
-  private readonly categoryService = inject(CategoryService);
-  protected readonly categoriesResource = rxResource({
-    stream: () => this.categoryService.getCategories(),
-  });
   private readonly initialFormData: SessionFormModel = {
     date: new Date().toISOString().split('T')[0],
     notes: '',
@@ -25,50 +20,65 @@ export class SessionModalComponent {
     topics: [],
   };
   session = input<Session | null>(null);
-  protected readonly model = linkedSignal<SessionFormModel>(() => this.session() ?? this.initialFormData);
+  protected readonly model = linkedSignal<SessionFormModel>(() => this.session() || this.initialFormData);
   protected readonly form = form(this.model, (fields) => {
     required(fields.date);
     required(fields.duration);
     min(fields.duration, 10);
-    applyEach(fields.topics, (topic) => {
-      required(topic.desc);
+    validate(fields.topics, (context) => {
+      return context.value().length > 0 ? null : { kind: 'required' };
     });
   });
   modalClosed = output<void>();
   private readonly modalComponent = viewChild.required(ModalComponent);
   protected readonly selectedCategory = linkedSignal({
-    source: () => this.categoriesResource.value(),
-    computation: (categories): Category | null => categories?.[0] ?? null,
+    source: () => this.categories(),
+    computation: (categories): Category => categories[0],
   });
-  sessionSaved = output<SessionFormModel>();
-  title = input.required<string>();
-  protected readonly topicsBySelectedCategory = computed(() =>
+  protected readonly selectedCategoryTopic = computed(() =>
     this.model().topics.find((topic) => topic.category.id === this.selectedCategory()?.id),
   );
+  sessionSaved = output<SessionFormModel>();
 
-  protected addTopic(event: Event) {
-    const target = event.target as HTMLInputElement;
+  title = input.required<string>();
+
+  protected addTopic(value: string): void {
+    const desc = value.trim();
     const currentCategory = this.selectedCategory();
 
-    if (!currentCategory) {
+    if (!desc || !currentCategory) {
       return;
     }
+
     this.model.update((prev) => {
       const updatedTopics = [...prev.topics];
-      const existingTopic = updatedTopics.find((t) => t.category.id === currentCategory.id);
-      if (existingTopic) {
-        existingTopic.desc = existingTopic.desc + ',' + target.value;
-        return { ...prev, topics: updatedTopics };
+      const index = updatedTopics.findIndex((t) => t.category.id === currentCategory.id);
+
+      if (index !== -1) {
+        const existing = updatedTopics[index];
+        updatedTopics[index] = {
+          ...existing,
+          desc: existing.desc ? `${existing.desc},${desc}` : desc,
+        };
+      } else {
+        updatedTopics.push({
+          category: currentCategory,
+          desc: desc,
+        });
       }
-      return {
-        ...prev,
-        topics: [...prev.topics, { categoryId: currentCategory.id, category: currentCategory, desc: target.value }],
-      };
+
+      return { ...prev, topics: updatedTopics };
     });
   }
 
   close(): void {
     this.modalComponent().close();
+  }
+
+  protected onAddTopicInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.addTopic(target.value);
+    target.value = '';
   }
 
   protected onModalClose(): void {
@@ -78,6 +88,30 @@ export class SessionModalComponent {
 
   open(): void {
     this.modalComponent().open();
+  }
+
+  removeTopic(descToRemove: string): void {
+    const currentCategory = this.selectedCategory();
+    if (!currentCategory) {
+      return;
+    }
+
+    this.model.update((prev) => {
+      const topics = prev.topics
+        .map((topic) => {
+          if (topic.category.id !== currentCategory.id) {
+            return topic;
+          }
+          const desc = topic.desc
+            .split(',')
+            .filter((d) => d !== descToRemove)
+            .join(',');
+          return { ...topic, desc };
+        })
+        .filter((topic) => topic.desc !== '');
+
+      return { ...prev, topics };
+    });
   }
 
   protected saveSession(): void {
