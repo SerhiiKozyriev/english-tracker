@@ -10,6 +10,13 @@ import { Word, WordFormModel } from '../../models/word';
   styleUrl: './add-word-modal.component.css',
 })
 export class AddWordModalComponent {
+  title = input.required<string>();
+
+  word = input<Word | null>(null);
+  wordSaved = output<WordFormModel>();
+
+  private readonly modalComponent = viewChild.required(ModalComponent);
+
   private readonly initialFormData: WordFormModel = {
     word: '',
     translation: '',
@@ -17,18 +24,11 @@ export class AddWordModalComponent {
     status: 'learning',
   };
 
-  word = input<Word | null>(null);
   protected readonly model = linkedSignal<WordFormModel>(() => this.word() ?? this.initialFormData);
-
   protected readonly form = form(this.model, (fields) => {
     required(fields.word);
     required(fields.translation);
   });
-
-  private readonly modalComponent = viewChild.required(ModalComponent);
-
-  title = input.required<string>();
-  wordSaved = output<WordFormModel>();
 
   close(): void {
     this.resetForm();

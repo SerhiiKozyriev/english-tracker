@@ -27,7 +27,8 @@
   --app-background: #f5f2eb;
   --surface-primary: #ffffff;
   --surface-secondary: #f1f5f9;
-  
+  --surface-dark: #1e293b;
+
   --text-primary: #1c1917;
   --text-muted: #78716c;
   --text-on-dark: #ffffff;
@@ -155,7 +156,7 @@ body {
 }
 
 .primary-btn {
-  background-color: var(--text-primary);
+  background-color: var(--surface-dark);
   color: var(--surface-primary);
 }
 .primary-btn:hover {

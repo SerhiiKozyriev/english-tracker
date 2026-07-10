@@ -10,7 +10,7 @@ export interface Session {
 
 export interface SessionTopic {
   category: Category;
-  desc: string;
+  desc: string[];
 }
 
 export interface SessionFormModel {
@@ -25,5 +25,6 @@ export interface SessionStats {
   hours: number;
   minutes: number;
   topicsCount: number;
+  streak: number;
   statsByCategory: Record<string, number>;
 }

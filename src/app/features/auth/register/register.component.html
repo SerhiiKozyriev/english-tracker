@@ -1,0 +1,143 @@
+<div class="auth-card">
+  <div class="auth-header">
+    <h1 class="auth-title">Create an account</h1>
+    <p class="auth-subtitle">Sign up to start your learning journey.</p>
+  </div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <!-- Name Field -->
+    <div class="input-group">
+      <label for="name" class="input-label">Full Name</label>
+      <div
+        class="input-box"
+        [class.input-box--error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+      >
+        <input id="name" type="text" formControlName="name" placeholder="John Doe" class="input" />
+      </div>
+      @if (registerForm.get('name')?.errors?.['required'] && registerForm.get('name')?.touched) {
+        <span class="error-text">Name is required</span>
+      }
+      @if (registerForm.get('name')?.errors?.['minlength'] && registerForm.get('name')?.touched) {
+        <span class="error-text">Name must be at least 2 characters</span>
+      }
+    </div>
+
+    <!-- Email Field -->
+    <div class="input-group">
+      <label for="email" class="input-label">Email</label>
+      <div
+        class="input-box"
+        [class.input-box--error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+      >
+        <input id="email" type="email" formControlName="email" placeholder="you@example.com" class="input" />
+      </div>
+      @if (registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched) {
+        <span class="error-text">Email is required</span>
+      }
+      @if (registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched) {
+        <span class="error-text">Please enter a valid email address</span>
+      }
+    </div>
+
+    <!-- Password Field -->
+    <div class="input-group">
+      <label for="password" class="input-label">Password</label>
+      <div
+        class="input-box"
+        [class.input-box--error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+      >
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          formControlName="password"
+          placeholder="••••••••"
+          class="input"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
+          [aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+        >
+          @if (showPassword()) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+              <path
+                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+              />
+              <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          }
+        </button>
+      </div>
+      @if (registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched) {
+        <span class="error-text">Password is required</span>
+      }
+      @if (registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched) {
+        <span class="error-text">Password must be at least 6 characters</span>
+      }
+    </div>
+
+    <!-- Confirm Password Field -->
+    <div class="input-group">
+      <label for="confirmPassword" class="input-label">Confirm Password</label>
+      <div
+        class="input-box"
+        [class.input-box--error]="
+          (registerForm.get('confirmPassword')?.invalid || registerForm.errors?.['passwordMismatch']) &&
+          registerForm.get('confirmPassword')?.touched
+        "
+      >
+        <input
+          id="confirmPassword"
+          [type]="showConfirmPassword() ? 'text' : 'password'"
+          formControlName="confirmPassword"
+          placeholder="••••••••"
+          class="input"
+        />
+        <button
+          type="button"
+          class="password-toggle"
+          (click)="toggleConfirmPasswordVisibility()"
+          [aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
+        >
+          @if (showConfirmPassword()) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+              <path
+                d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+              />
+              <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="toggle-icon">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+          }
+        </button>
+      </div>
+      @if (registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched) {
+        <span class="error-text">Please confirm your password</span>
+      }
+      @if (registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched) {
+        <span class="error-text">Passwords do not match</span>
+      }
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn--primary" [disabled]="isLoading()">
+      @if (isLoading()) {
+        <span class="spinner"></span>
+        Creating account...
+      } @else {
+        Register
+      }
+    </button>
+  </form>
+
+  <p class="auth-footer">Already have an account? <a routerLink="/auth/login" class="auth-link">Sign in</a></p>
+</div>

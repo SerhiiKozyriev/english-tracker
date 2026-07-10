@@ -39,6 +39,8 @@
 
   /* --- Color Palette: Global Surfaces & Borders --- */
   --app-background: #f5f2eb;
+  --input-beige-bg: #ebe7dd;
+  --input-beige-border: #c0bcae;
   --text-primary: #1c1917;
 
   --surface-primary: #ffffff;

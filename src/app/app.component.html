@@ -1,4 +1,6 @@
 <div class="app-container">
-  <app-header></app-header>
+  @if (showNavigation()) {
+    <app-header></app-header>
+  }
   <router-outlet />
 </div>

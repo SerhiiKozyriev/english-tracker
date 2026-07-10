@@ -35,15 +35,18 @@
   border-right: var(--border-width) solid var(--border-default);
   padding: var(--space-xl) 0;
 }
+
 .session-modal__content-pane {
   display: flex;
   flex-direction: column;
-  flex:1;
+  flex: 1;
   padding: var(--space-xl) var(--space-md);
 }
 
 .session-modal__btn-delete {
-  transition: opacity var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+  transition:
+    opacity var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
   padding: var(--space-xs);
   border-radius: var(--space-xs);
   border: none;
@@ -57,10 +60,15 @@
   }
 }
 
-.session-modal__content-list{
+.session-modal__content-list {
   display: flex;
   flex-direction: column;
   min-height: 150px;
   max-height: 250px;
   overflow-y: auto;
+}
+
+.session-modal__content-item {
+  display: flex;
+  align-content: center;
 }

@@ -44,7 +44,7 @@
               marker="dot"
             />
           </li>
-          @for (item of topic.desc.split(','); track item) {
+          @for (item of topic.desc; track item) {
             <li class="session-card__item">
               {{ item }}
             </li>

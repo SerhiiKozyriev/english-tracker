@@ -9,8 +9,8 @@ import { TagComponent } from '@shared/components';
   styleUrl: './category-stats.component.css',
 })
 export class CategoryStatsComponent {
-  protected readonly categoriesConfig = CATEGORIES_CONFIG;
   statsByCategory = input.required<Record<string, number>>();
+  protected readonly categoriesConfig = CATEGORIES_CONFIG;
   categoriesData = computed(() => {
     return Object.keys(this.statsByCategory());
   });

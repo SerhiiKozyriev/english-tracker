@@ -35,7 +35,7 @@
 }
 
 .btn--primary {
-  background-color: var(--text-primary);
+  background-color: var(--surface-dark);
   color: var(--surface-primary);
   border: none;
 }

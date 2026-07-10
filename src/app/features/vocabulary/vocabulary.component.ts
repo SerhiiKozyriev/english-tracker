@@ -17,14 +17,14 @@ import { VocabularyService } from './services/vocabulary.service';
   styleUrl: './vocabulary.component.css',
 })
 export class VocabularyComponent {
-  private readonly addWordModalComponent = viewChild.required(AddWordModalComponent);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly vocabularyService = inject(VocabularyService);
+  private readonly addWordModalComponent = viewChild.required(AddWordModalComponent);
   protected readonly filterQuery = signal<string>('all');
-  protected readonly searchQuery = signal<string>('');
 
+  protected readonly searchQuery = signal<string>('');
   protected readonly selectedWord = signal<Word | null>(null);
   protected readonly title = computed(() => (this.selectedWord() ? 'Edit word' : 'New word'));
-  private readonly vocabularyService = inject(VocabularyService);
   protected readonly wordsResource = rxResource({
     params: () => ({ search: this.searchQuery(), status: this.filterQuery() }),
     stream: ({ params }) => this.vocabularyService.getWords(params.search, params.status),

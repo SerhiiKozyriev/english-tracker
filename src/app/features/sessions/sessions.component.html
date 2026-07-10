@@ -27,12 +27,14 @@
       </div>
     </main>
 
-    <aside class="sessions-page__sidebar">
-      <app-streak-card [streak]="streak()" />
+    @if (statsResource.value(); as stats) {
+      <aside class="sessions-page__sidebar">
+        <app-streak-card [streak]="stats.streak" />
 
-      <app-stats-card [stats]="statsResource.value()"></app-stats-card>
-      <app-category-stats [statsByCategory]="statsResource.value()?.statsByCategory"></app-category-stats>
-    </aside>
+        <app-stats-card [stats]="stats"></app-stats-card>
+        <app-category-stats [statsByCategory]="stats.statsByCategory"></app-category-stats>
+      </aside>
+    }
   </div>
 </div>
 <app-session-modal

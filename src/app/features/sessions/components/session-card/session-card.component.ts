@@ -10,13 +10,13 @@ import { Session } from '../../models/sessions';
   styleUrl: './session-card.component.css',
 })
 export class SessionCardComponent {
-  protected readonly categoriesConfig = CATEGORIES_CONFIG;
   session = input.required<Session>();
   sessionDelete = output<string>();
   sessionEdit = output<Session>();
+  protected readonly categoriesConfig = CATEGORIES_CONFIG;
 
   totalItems = computed(() => {
-    return this.session().topics.reduce((acc) => acc + 1, 0);
+    return this.session().topics.reduce((acc, topic) => acc + topic.desc.length, 0);
   });
 
   deleteSession(id: string) {

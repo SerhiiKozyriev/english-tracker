@@ -12,6 +12,11 @@ import { Session, SessionFormModel } from '../../models/sessions';
 })
 export class SessionModalComponent {
   categories = input.required<Category[]>();
+  session = input<Session | null>(null);
+  title = input.required<string>();
+  modalClosed = output<void>();
+  sessionSaved = output<SessionFormModel>();
+  private readonly modalComponent = viewChild.required(ModalComponent);
   protected readonly categoriesConfig = CATEGORIES_CONFIG;
   private readonly initialFormData: SessionFormModel = {
     date: new Date().toISOString().split('T')[0],
@@ -19,7 +24,6 @@ export class SessionModalComponent {
     duration: 0,
     topics: [],
   };
-  session = input<Session | null>(null);
   protected readonly model = linkedSignal<SessionFormModel>(() => this.session() || this.initialFormData);
   protected readonly form = form(this.model, (fields) => {
     required(fields.date);
@@ -29,8 +33,6 @@ export class SessionModalComponent {
       return context.value().length > 0 ? null : { kind: 'required' };
     });
   });
-  modalClosed = output<void>();
-  private readonly modalComponent = viewChild.required(ModalComponent);
   protected readonly selectedCategory = linkedSignal({
     source: () => this.categories(),
     computation: (categories): Category => categories[0],
@@ -38,52 +40,9 @@ export class SessionModalComponent {
   protected readonly selectedCategoryTopic = computed(() =>
     this.model().topics.find((topic) => topic.category.id === this.selectedCategory()?.id),
   );
-  sessionSaved = output<SessionFormModel>();
-
-  title = input.required<string>();
-
-  protected addTopic(value: string): void {
-    const desc = value.trim();
-    const currentCategory = this.selectedCategory();
-
-    if (!desc || !currentCategory) {
-      return;
-    }
-
-    this.model.update((prev) => {
-      const updatedTopics = [...prev.topics];
-      const index = updatedTopics.findIndex((t) => t.category.id === currentCategory.id);
-
-      if (index !== -1) {
-        const existing = updatedTopics[index];
-        updatedTopics[index] = {
-          ...existing,
-          desc: existing.desc ? `${existing.desc},${desc}` : desc,
-        };
-      } else {
-        updatedTopics.push({
-          category: currentCategory,
-          desc: desc,
-        });
-      }
-
-      return { ...prev, topics: updatedTopics };
-    });
-  }
 
   close(): void {
     this.modalComponent().close();
-  }
-
-  protected onAddTopicInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.addTopic(target.value);
-    target.value = '';
-  }
-
-  protected onModalClose(): void {
-    this.resetForm();
-    this.modalClosed.emit();
   }
 
   open(): void {
@@ -102,16 +61,53 @@ export class SessionModalComponent {
           if (topic.category.id !== currentCategory.id) {
             return topic;
           }
-          const desc = topic.desc
-            .split(',')
-            .filter((d) => d !== descToRemove)
-            .join(',');
+          const desc = topic.desc.filter((d) => d !== descToRemove);
           return { ...topic, desc };
         })
-        .filter((topic) => topic.desc !== '');
+        .filter((topic) => topic.desc.length > 0);
 
       return { ...prev, topics };
     });
+  }
+
+  protected addTopic(value: string): void {
+    const desc = value.trim();
+    const currentCategory = this.selectedCategory();
+
+    if (!desc || !currentCategory) {
+      return;
+    }
+
+    this.model.update((prev) => {
+      const updatedTopics = [...prev.topics];
+      const index = updatedTopics.findIndex((t) => t.category.id === currentCategory.id);
+
+      if (index !== -1) {
+        const existing = updatedTopics[index];
+        updatedTopics[index] = {
+          ...existing,
+          desc: [...existing.desc, desc],
+        };
+      } else {
+        updatedTopics.push({
+          category: currentCategory,
+          desc: [desc],
+        });
+      }
+
+      return { ...prev, topics: updatedTopics };
+    });
+  }
+
+  protected onAddTopicInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.addTopic(target.value);
+    target.value = '';
+  }
+
+  protected onModalClose(): void {
+    this.resetForm();
+    this.modalClosed.emit();
   }
 
   protected saveSession(): void {

@@ -7,9 +7,9 @@ import { Component, ElementRef, input, output, viewChild } from '@angular/core';
   styleUrl: './modal.component.css',
 })
 export class ModalComponent {
+  title = input.required<string>();
   modalClosed = output<void>();
   private modalEl = viewChild.required<ElementRef<HTMLDialogElement>>('modal');
-  title = input.required<string>();
 
   close(): void {
     this.modalEl().nativeElement.close();

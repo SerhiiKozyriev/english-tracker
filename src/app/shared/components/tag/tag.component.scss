@@ -4,7 +4,6 @@
   gap: var(--space-xs);
   box-sizing: border-box;
 
-  /* Intent styling (controls colors via CSS custom properties) */
   &[data-intent='default'] {
     --variant-bg: var(--surface-secondary);
     --variant-text: var(--text-muted);
@@ -63,7 +62,7 @@
     cursor: pointer;
 
     &:hover,
-    &.is-active {
+    &.active {
       background-color: var(--app-background);
       color: var(--text-primary);
     }

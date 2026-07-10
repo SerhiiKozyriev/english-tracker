@@ -9,12 +9,12 @@ import { Word } from '../../models/word';
   styleUrl: './word-card.component.css',
 })
 export class WordCardComponent {
-  protected readonly isRevealed = signal(false);
   word = input.required<Word>();
   wordDelete = output<string>();
   wordEdit = output<Word>();
-
   wordUpdate = output<{ id: string; word: Partial<Word> }>();
+
+  protected readonly isRevealed = signal(false);
 
   deleteWord(event: Event) {
     event.stopPropagation();

@@ -26,11 +26,11 @@
 }
 
 .word-filter__button--active {
-  background-color: var(--text-primary);
+  background-color: var(--surface-dark);
   color: var(--surface-primary);
 }
 
 .word-filter__button--active:hover {
-  background-color: var(--text-primary);
+  background-color: var(--surface-dark);
   color: var(--surface-primary);
 }
